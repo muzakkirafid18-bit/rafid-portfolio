@@ -133,8 +133,32 @@ export default function Hero() {
 
           </div>
 
-          {/* Right Column: Interactive Terminal Widget */}
-          <div className="lg:col-span-5 relative">
+          {/* Right Column: Profile Photo + Terminal Widget */}
+          <div className="lg:col-span-5 relative space-y-6">
+            
+            {/* Profile Photo */}
+            <div className="flex justify-center">
+              <div className="relative group/photo">
+                {/* Outer glow ring */}
+                <div className="absolute -inset-1.5 rounded-full bg-gradient-to-br from-emerald-400 via-cyan-400 to-emerald-500 opacity-60 blur-md group-hover/photo:opacity-100 group-hover/photo:blur-lg transition-all duration-500"></div>
+                {/* Border ring */}
+                <div className="absolute -inset-1 rounded-full bg-gradient-to-br from-emerald-400 via-cyan-400 to-emerald-500 opacity-80"></div>
+                {/* Photo container */}
+                <div className="relative w-40 h-40 sm:w-48 sm:h-48 rounded-full overflow-hidden border-2 border-slate-900">
+                  <img
+                    src="/rafid-foto.jpg"
+                    alt="Rafid Muzakki Putra Andryan"
+                    className="w-full h-full object-cover object-top scale-110 group-hover/photo:scale-105 transition-transform duration-500"
+                  />
+                </div>
+                {/* Status dot */}
+                <div className="absolute bottom-2 right-2 w-5 h-5 rounded-full bg-emerald-500 border-3 border-[#070b16] shadow-[0_0_10px_rgba(16,185,129,0.6)]">
+                  <span className="absolute inset-0 rounded-full bg-emerald-400 animate-ping opacity-40"></span>
+                </div>
+              </div>
+            </div>
+
+            {/* Terminal Widget */}
             <div className="relative group">
               {/* Outer decorative neon border glow */}
               <div className="absolute -inset-1 rounded-2xl bg-gradient-to-r from-emerald-500/20 via-cyan-500/20 to-indigo-500/20 blur-xl opacity-75 group-hover:opacity-100 transition duration-1000 group-hover:duration-200"></div>
@@ -146,7 +170,7 @@ export default function Hero() {
             </div>
 
             {/* Mini hint badge below terminal */}
-            <p className="text-[11px] font-mono text-slate-500 text-center mt-3 flex items-center justify-center gap-1.5">
+            <p className="text-[11px] font-mono text-slate-500 text-center flex items-center justify-center gap-1.5">
               <Sparkles className="w-3 h-3 text-emerald-400" />
               <span>Terminal interaktif di atas bisa langsung diketik & dicoba!</span>
             </p>
