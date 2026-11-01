@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Terminal, Menu, X, ArrowUpRight, Code2 } from 'lucide-react';
+import { Terminal, Menu, X, ArrowUpRight, Code2, FileDown } from 'lucide-react';
 import { GithubIcon, LinkedinIcon } from './Icons';
 
 export default function Navbar() {
@@ -19,7 +19,8 @@ export default function Navbar() {
     { name: '// 02. Stack', href: '#skills' },
     { name: '// 03. Projects', href: '#projects' },
     { name: '// 04. Education', href: '#education' },
-    { name: '// 05. Contact', href: '#contact' },
+    { name: '// 05. API Console', href: '#api-playground' },
+    { name: '// 06. Contact', href: '#contact' },
   ];
 
   return (
@@ -46,7 +47,7 @@ export default function Navbar() {
         </a>
 
         {/* Desktop Navigation */}
-        <nav className="hidden md:flex items-center gap-6 font-mono text-xs sm:text-sm">
+        <nav className="hidden md:flex items-center gap-5 lg:gap-6 font-mono text-xs sm:text-sm">
           {navLinks.map((link) => (
             <a
               key={link.name}
@@ -58,8 +59,18 @@ export default function Navbar() {
           ))}
         </nav>
 
-        {/* Right Action Icons & Status */}
-        <div className="hidden lg:flex items-center gap-4">
+        {/* Right Action Icons & CV Button */}
+        <div className="hidden lg:flex items-center gap-3">
+          <a
+            href="/CV_Rafid_Muzakki_Putra_Andryan.pdf"
+            download="CV_Rafid_Muzakki_Putra_Andryan.pdf"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-500/10 border border-emerald-500/40 text-emerald-400 hover:bg-emerald-500 hover:text-black transition-all text-xs font-mono font-semibold shadow-[0_0_12px_rgba(16,185,129,0.15)]"
+            title="Download CV Resmi (PDF)"
+          >
+            <FileDown className="w-3.5 h-3.5" />
+            <span>CV</span>
+          </a>
+
           <div className="flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-950/40 border border-emerald-500/30 text-emerald-400 text-xs font-mono">
             <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
             <span>Open for Collab</span>
@@ -87,6 +98,15 @@ export default function Navbar() {
 
         {/* Mobile Hamburger Button */}
         <div className="flex md:hidden items-center gap-2">
+          <a
+            href="/CV_Rafid_Muzakki_Putra_Andryan.pdf"
+            download="CV_Rafid_Muzakki_Putra_Andryan.pdf"
+            className="flex items-center gap-1 px-2.5 py-1.5 rounded-md bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-mono font-medium"
+          >
+            <FileDown className="w-3 h-3" />
+            <span>CV</span>
+          </a>
+
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             className="p-2 rounded-lg bg-slate-900/70 border border-slate-800 text-slate-300 hover:text-emerald-400 focus:outline-none"

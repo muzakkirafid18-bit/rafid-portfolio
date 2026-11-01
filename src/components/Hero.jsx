@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { ArrowRight, Code2, Database, Server, MapPin, Sparkles, Terminal, FileCode, CheckCircle2 } from 'lucide-react';
+import { ArrowRight, Code2, Database, Server, MapPin, Sparkles, Terminal, FileCode, CheckCircle2, FileDown } from 'lucide-react';
 import TerminalWidget from './TerminalWidget';
 
 export default function Hero() {
@@ -105,6 +105,16 @@ export default function Hero() {
               >
                 <span>Lihat Project Saya</span>
                 <ArrowRight className="w-4 h-4" />
+              </a>
+
+              <a
+                href="/CV_Rafid_Muzakki_Putra_Andryan.pdf"
+                download="CV_Rafid_Muzakki_Putra_Andryan.pdf"
+                className="inline-flex items-center gap-2 px-4 py-3 rounded-xl bg-slate-900/90 hover:bg-slate-800 border border-emerald-500/40 hover:border-emerald-400 text-emerald-400 font-mono text-xs sm:text-sm font-semibold transition-all hover:-translate-y-0.5 shadow-[0_0_15px_rgba(16,185,129,0.15)]"
+                title="Download CV Resmi (PDF)"
+              >
+                <FileDown className="w-4 h-4 text-emerald-400" />
+                <span>Unduh CV (PDF)</span>
               </a>
 
               <a

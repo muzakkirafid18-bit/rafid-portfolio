@@ -4,6 +4,7 @@ import Hero from './components/Hero';
 import SkillsSection from './components/SkillsSection';
 import ProjectsSection from './components/ProjectsSection';
 import EducationTimeline from './components/EducationTimeline';
+import ApiPlayground from './components/ApiPlayground';
 import ContactSection from './components/ContactSection';
 import Footer from './components/Footer';
 
@@ -28,6 +29,7 @@ export default function App() {
           <SkillsSection />
           <ProjectsSection />
           <EducationTimeline />
+          <ApiPlayground />
           <ContactSection />
         </main>
         <Footer />
