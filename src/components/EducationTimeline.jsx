@@ -55,7 +55,7 @@ export default function EducationTimeline() {
       type: 'Course Completion & Competence',
       date: '28 Agustus 2026',
       credentialId: 'L4PQW30L2PO1',
-      image: null,
+      image: '/sertifikat-dicoding-dart.png',
       verifyUrl: 'https://www.dicoding.com/certificates/L4PQW30L2PO1',
       pdfUrl: '/sertifikat-dicoding-dart.pdf',
       desc: 'Sertifikat kelulusan materi dan tugas submission pemrograman bahasa Dart (OOP, Collections, Type System, Futures & Asinkron). Total 30 jam belajar.',
@@ -70,7 +70,7 @@ export default function EducationTimeline() {
       type: 'Course Completion & Competence',
       date: '29 Agustus 2026',
       credentialId: 'ERZR7M50QZYV',
-      image: null,
+      image: '/sertifikat-dicoding-flutter.png',
       verifyUrl: 'https://www.dicoding.com/certificates/ERZR7M50QZYV',
       pdfUrl: '/sertifikat-dicoding-flutter.pdf',
       desc: 'Sertifikat kelulusan materi dan submission proyek akhir pembuatan aplikasi Flutter (Widget Layout, Navigation, State Management, Build APK/Web). Total 40 jam belajar.',
@@ -193,6 +193,28 @@ export default function EducationTimeline() {
                     </div>
                   </div>
 
+                  {/* Thumbnail Preview Banner */}
+                  {cert.image && (
+                    <div
+                      onClick={() => setSelectedCert(cert)}
+                      className="cursor-pointer rounded-xl overflow-hidden border border-slate-800/90 hover:border-emerald-500/50 transition-all group/img relative aspect-[16/10] bg-slate-950"
+                    >
+                      <img
+                        src={cert.image}
+                        alt={cert.title}
+                        className="w-full h-full object-cover object-top group-hover/img:scale-105 transition-transform duration-300"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover/img:opacity-100 transition-opacity flex items-end justify-between p-3">
+                        <span className="text-[11px] font-mono text-white flex items-center gap-1.5">
+                          <ImageIcon className="w-3.5 h-3.5 text-emerald-400" /> Klik untuk perbesar
+                        </span>
+                        <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-500/30 text-emerald-300 border border-emerald-500/40">
+                          Foto Asli
+                        </span>
+                      </div>
+                    </div>
+                  )}
+
                   <p className="text-xs text-slate-400 leading-relaxed">
                     {cert.desc}
                   </p>
@@ -251,7 +273,7 @@ export default function EducationTimeline() {
 
               {/* Certificate Image if available */}
               {selectedCert.image ? (
-                <div className="rounded-2xl overflow-hidden border border-slate-800 bg-slate-950">
+                <div className="rounded-2xl overflow-hidden border border-slate-800 bg-slate-950 shadow-inner">
                   <img
                     src={selectedCert.image}
                     alt={selectedCert.title}
