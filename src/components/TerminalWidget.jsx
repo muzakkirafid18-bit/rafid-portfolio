@@ -96,7 +96,8 @@ Passions : Backend Engineering, RESTful APIs, Database Design, Scalable Systems.
   • SMPN 4 Cibinong
   • SDN Pabuaran 07
 Certificates:
-  • Dicoding Certificate (Foundation)
+  • Neo One Industry Validation (Backend Programmer)
+  • Dicoding: Dart & Flutter Pemula (Kelas & Submission)
   • 2x Sertifikasi BNSP (Target: Bulan Ini!)`,
         });
         break;
