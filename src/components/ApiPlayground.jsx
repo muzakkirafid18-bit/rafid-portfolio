@@ -45,17 +45,17 @@ export default function ApiPlayground() {
           category: 'backend_and_database',
           frameworks: ['Laravel 11', 'PHP 8.x Native'],
           databases: [
-            { engine: 'MySQL', proficiency: 'Relational Design, Prepared Statements, Indexes' },
+            { engine: 'MySQL', proficiency: 'Large-scale Relational Design (50+ Tables), Prepared Statements, Indexes' },
             { engine: 'PostgreSQL', proficiency: 'Relational Schemas, Constraints, SQL Queries' },
+            { engine: 'Microsoft SQL Server', proficiency: 'WinForms C# Desktop Storage (.mdf), Constraints' },
             { engine: 'Supabase', proficiency: 'Exploring BaaS & Auth' }
           ],
           concepts: [
             'RESTful API Architecture',
             'Prepared Statements / SQL Injection Prevention',
             'Relational Schema Normalization (3NF)',
-            'Session & Multi-Role Authentication'
-          ],
-          desktop_and_game: ['C# .NET Desktop', 'Game Logic & State Machines']
+            'Multi-Role Authentication & Session Guards'
+          ]
         }
       }
     },
@@ -63,8 +63,8 @@ export default function ApiPlayground() {
       id: 'lsp',
       method: 'GET',
       path: '/api/v1/projects/lsp',
-      label: 'Project Spec: LSP SMKN 1 Cibinong',
-      desc: 'Detail arsitektur teknis aplikasi sertifikasi profesi berbasis PHP Native & MySQL.',
+      label: 'Project: LSP SMKN 1 Cibinong (54 Tables)',
+      desc: 'Detail arsitektur database MySQL lsp_p1_db dengan 54 tabel standar BNSP.',
       response: {
         status: 200,
         statusText: 'OK',
@@ -72,19 +72,44 @@ export default function ApiPlayground() {
           project_name: 'Aplikasi LSP SMKN 1 Cibinong',
           repo_url: 'https://github.com/muzakkirafid18-bit/LSP_Tes',
           role: 'Backend Programmer (Validated by Neo One Academy)',
-          tech_stack: ['PHP Native', 'MySQL', 'Tailwind CSS', 'JavaScript'],
-          architecture: {
-            auth: 'Multi-Role Session Guard (Admin, Asesor, Asesi)',
-            db_engine: 'MySQL InnoDB with foreign key integrity',
-            queries: 'PDO Prepared Statements'
+          database: {
+            name: 'lsp_p1_db',
+            engine: 'MySQL 8.0 InnoDB',
+            total_tables: 54,
+            subsystems: {
+              bnsp_assessment_forms: ['apl1', 'apl2', 'mma', 'mak2', 'mak2rekom', 'mak4', 'mak4rekom', 'mak5', 'mak5baru', 'mak7', 'banding'],
+              skkni_standards: ['skema', 'unit', 'unitalias', 'elemen', 'subelemen (KUK)', 'syarat'],
+              participants_and_execution: ['tuk', 'settanggal', 'tanggaltes', 'skemasiswa', 'unitsiswa', 'soal', 'soalessay', 'jawabanabc'],
+              security_and_auth: ['users', 'lspuser_tbl', 'lsp_usertbl', 'statuskerja']
+            }
           },
-          tables_overview: [
-            'users',
-            'skema_sertifikasi',
-            'unit_kompetensi',
-            'asesi',
-            'jadwal_uji'
-          ]
+          tech_stack: ['PHP Native', 'MySQL', 'Tailwind CSS', 'JavaScript']
+        }
+      }
+    },
+    {
+      id: 'donasi',
+      method: 'GET',
+      path: '/api/v1/projects/donasi',
+      label: 'Project: Sistem Donasi C# (SQL Server)',
+      desc: 'Skema relasional SistemDonasi.mdf untuk aplikasi C# WinForms.',
+      response: {
+        status: 200,
+        statusText: 'OK',
+        data: {
+          project_name: 'Aplikasi Donasi Desktop C# (.NET)',
+          database: {
+            name: 'SistemDonasi.mdf',
+            engine: 'Microsoft SQL Server',
+            entities: [
+              { name: 'Users', role: 'Admin, Donatur, Penerima', relations: '1:N Donasi & 1:N Permohonan' },
+              { name: 'ProgramDonasi', purpose: 'Campaign Amal & Target Dana', relations: '1:N Donasi' },
+              { name: 'Donasi', purpose: 'Transaksi Donasi Masuk', relations: 'N:1 Users & N:1 ProgramDonasi' },
+              { name: 'Permohonan', purpose: 'Pengajuan Bantuan Dana', relations: 'N:1 Users & 1:1 Distribusi' },
+              { name: 'Distribusi', purpose: 'Pencairan Dana Terverifikasi', relations: '1:1 Permohonan' }
+            ]
+          },
+          architecture_pattern: 'WinForms Multi-Role Dashboard with DbHelper Data Layer'
         }
       }
     },
@@ -138,7 +163,7 @@ export default function ApiPlayground() {
           service: 'rafid-backend-api',
           health: 'healthy',
           uptime: '99.98%',
-          database_connection: 'connected (MySQL & PostgreSQL)',
+          database_connection: 'connected (MySQL 8.0 & PostgreSQL & SQL Server)',
           timestamp: new Date().toISOString(),
           message: 'Backend API ready to process requests and collaboration!'
         }
