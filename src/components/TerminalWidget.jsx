@@ -80,7 +80,7 @@ Passions : Backend Engineering, RESTful APIs, Database Design, Scalable Systems.
       case 'projects':
         newHistory.push({
           type: 'output',
-          text: `1. Aplikasi LSP SMKN 1 Cibinong (Web / Laravel / MySQL)
+          text: `1. Aplikasi LSP SMKN 1 Cibinong (Web / PHP Native / MySQL)
    -> https://github.com/muzakkirafid18-bit/LSP_Tes
 2. Game Advenland (Game Project / Logic & Gameplay)
 3. Aplikasi Donasi Berbasis Desktop (C# .NET)`,

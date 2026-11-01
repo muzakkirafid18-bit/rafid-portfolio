@@ -15,25 +15,21 @@ export default function ProjectsSection() {
       icon: <Globe className="w-5 h-5 text-emerald-400" />,
       bannerGradient: 'from-emerald-900/40 via-slate-900 to-[#070b16]',
       coverImage: '/lsp-screenshot.png',
-      tech: ['Laravel', 'PHP', 'MySQL', 'Tailwind CSS', 'Blade'],
+      tech: ['PHP Native', 'MySQL', 'Tailwind CSS', 'JavaScript'],
       github: 'https://github.com/muzakkirafid18-bit/LSP_Tes',
       demo: null,
       description:
         'Aplikasi manajemen uji sertifikasi profesi untuk SMKN 1 Cibinong. Membantu digitalisasi pendataan calon asesi, pemilihan skema kompetensi keahlian, pengelolaan data asesor, dan rekapitulasi nilai hasil asesmen secara terstruktur.',
       keyFeatures: [
-        'Multi-Role Authentication (Admin, Asesor, Asesi/Siswa)',
+        'Multi-Role Authentication & Session Management (Admin, Asesor, Asesi)',
         'Manajemen skema sertifikasi dan jadwal uji kompetensi',
-        'Relasi database MySQL terstruktur menggunakan Eloquent ORM',
+        'Query database MySQL terstruktur menggunakan Prepared Statements (PDO)',
         'UI responsif dan modern dengan Tailwind CSS',
       ],
-      codeSnippet: `// Contoh Controller Skema Asesi
-public function registerAsesi(Request $request) {
-    $validated = $request->validate([
-        'nisn' => 'required|unique:asesi,nisn',
-        'skema_id' => 'required|exists:skemas,id',
-    ]);
-    return Asesi::create($validated);
-}`,
+      codeSnippet: `// Query Skema Sertifikasi PHP Native (PDO)
+$stmt = $pdo->prepare("SELECT * FROM skema WHERE status = :status");
+$stmt->execute(['status' => 'aktif']);
+$skemaList = $stmt->fetchAll(PDO::FETCH_ASSOC);`,
     },
     {
       id: 'advenland',
