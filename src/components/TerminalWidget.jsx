@@ -70,7 +70,7 @@ Passions : Backend Engineering, RESTful APIs, Database Design, Scalable Systems.
       case 'stack':
         newHistory.push({
           type: 'output',
-          text: `[Backend & Web] : PHP, Laravel, HTML5, CSS3, JavaScript, Tailwind CSS
+          text: `[Backend & Web] : PHP, Laravel, HTML5, CSS3, JavaScript (OOP / Explore), Tailwind CSS
 [Databases]     : PostgreSQL, MySQL, Supabase (Exploring)
 [Desktop/Game]  : C#, Game Logic (Advenland)
 [Tools]         : Git, GitHub, VS Code, REST API, Postman`,
