@@ -6,6 +6,7 @@ import ExperienceSection from './components/ExperienceSection';
 import SpotifySection from './components/SpotifySection';
 import PortfolioSection from './components/PortfolioSection';
 import ApiPlayground from './components/ApiPlayground';
+import GallerySection from './components/GallerySection';
 import ContactSection from './components/ContactSection';
 import Footer from './components/Footer';
 
@@ -25,6 +26,7 @@ export default function App() {
           <SpotifySection />
           <PortfolioSection />
           <ApiPlayground />
+          <GallerySection />
           <ContactSection />
         </main>
         <Footer />
