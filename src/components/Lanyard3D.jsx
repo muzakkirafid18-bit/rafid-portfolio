@@ -252,19 +252,19 @@ function createCardFrontTexture(photoImg) {
 
   // 9. Tilted Cream Name Sticker across Lower Torso
   ctx.save();
-  ctx.translate(232, 542);
+  ctx.translate(236, 542);
   ctx.rotate(-0.11);
   ctx.fillStyle = '#f3eee2';
   ctx.shadowColor = 'rgba(0, 0, 0, 0.35)';
   ctx.shadowBlur = 10;
-  ctx.fillRect(-155, -24, 310, 48);
+  ctx.fillRect(-176, -23, 352, 46);
   ctx.shadowBlur = 0;
 
   ctx.fillStyle = '#0c162b';
-  ctx.font = '800 22px "Space Grotesk", sans-serif';
+  ctx.font = '800 19px "Space Grotesk", sans-serif';
   ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';
-  ctx.fillText('RAFID MUZAKKI PUTRA', 0, 1);
+  ctx.fillText('RAFID MUZAKKI PUTRA ANDRYAN', 0, 1);
   ctx.restore();
 
   // 10. Footer Texts inside Dark Navy Block
