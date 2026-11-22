@@ -101,7 +101,7 @@ export default function AboutSection() {
                 <svg viewBox="0 0 300 400" className="w-full h-full select-none pointer-events-none" xmlns="http://www.w3.org/2000/svg">
                   <defs>
                     <clipPath id="rafidSubjectClip">
-                      <path d="M 116 34 C 142 36, 157 56, 157 86 C 166 94, 166 116, 156 128 L 166 144 L 178 152 C 220 162, 246 194, 260 250 L 266 294 L 258 300 C 268 338, 274 374, 271 400 L 89 400 C 96 368, 105 332, 106 322 C 95 304, 76 287, 76 283 C 85 246, 102 204, 114 176 C 102 180, 88 172, 85 154 C 81 146, 78 134, 82 122 C 74 108, 65 92, 62 74 C 66 48, 90 34, 116 34 Z" />
+                      <path d="M 116 34 C 142 36, 157 56, 157 86 C 166 94, 166 116, 156 128 L 166 144 L 178 152 C 220 162, 246 194, 260 250 L 266 294 L 258 300 C 268 338, 274 374, 271 400 L 89 400 C 96 368, 105 332, 106 322 C 95 304, 76 287, 76 283 C 85 246, 102 204, 114 176 C 98 180, 86 172, 81 156 L 75 147 C 70 135, 67 122, 65 108 C 61 94, 60 84, 62 74 C 66 48, 90 34, 116 34 Z" />
                     </clipPath>
                   </defs>
                   <image
@@ -137,7 +137,7 @@ export default function AboutSection() {
                       </radialGradient>
                       {/* Head silhouette matching cropped photo */}
                       <clipPath id="headMaskClip">
-                        <path d="M 62 74 C 66 46, 90 34, 116 34 C 142 36, 157 56, 157 86 C 166 94, 166 116, 156 128 L 164 142 C 148 164, 130 176, 114 176 C 102 180, 88 172, 85 154 C 81 146, 78 134, 82 122 C 74 108, 65 92, 62 74 Z" />
+                        <path d="M 62 74 C 66 46, 90 34, 116 34 C 142 36, 157 56, 157 86 C 166 94, 166 116, 156 128 L 164 142 C 148 164, 130 176, 114 176 C 98 180, 86 172, 81 156 L 75 147 C 70 135, 67 122, 65 108 C 61 94, 60 84, 62 74 Z" />
                       </clipPath>
                       {/* Torso / White T-shirt silhouette */}
                       <clipPath id="torsoSuitClip">
