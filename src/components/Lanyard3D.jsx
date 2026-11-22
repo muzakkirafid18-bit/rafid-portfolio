@@ -1,7 +1,8 @@
 import { useEffect, useRef } from 'react';
 import * as THREE from 'three';
 
-// Chroma-key out the solid red studio background from /rafid-foto.jpg to get a razor-sharp suit cutout!
+// Flood-fill from outer borders ONLY to remove the red studio backdrop cleanly
+// without EVER touching a single pixel of face, lips, or skin!
 function extractSuitCutout(photoImg) {
   const off = document.createElement('canvas');
   off.width = photoImg.width;
@@ -9,20 +10,78 @@ function extractSuitCutout(photoImg) {
   const octx = off.getContext('2d');
   octx.drawImage(photoImg, 0, 0);
 
-  const imgData = octx.getImageData(0, 0, off.width, off.height);
+  const w = off.width;
+  const h = off.height;
+  const imgData = octx.getImageData(0, 0, w, h);
   const data = imgData.data;
 
-  for (let i = 0; i < data.length; i += 4) {
-    const r = data[i];
-    const g = data[i + 1];
-    const b = data[i + 2];
-    // Pure red studio backdrop detection with soft edge feathering
-    const redness = r - Math.max(g, b);
-    if (r > 130 && redness > 85) {
-      data[i + 3] = 0;
-    } else if (r > 110 && redness > 55) {
-      const fade = Math.max(0, Math.min(1, (85 - redness) / 30));
-      data[i + 3] = Math.round(data[i + 3] * fade);
+  const isBackdropRed = (idx) => {
+    const r = data[idx];
+    const g = data[idx + 1];
+    const b = data[idx + 2];
+    return r > 120 && r - Math.max(g, b) > 75 && g < 85 && b < 85;
+  };
+
+  const visited = new Uint8Array(w * h);
+  const queue = [];
+
+  // Seed flood-fill from top, left, and right edges only
+  for (let x = 0; x < w; x++) {
+    const topPos = x;
+    if (isBackdropRed(topPos * 4)) {
+      visited[topPos] = 1;
+      queue.push(topPos);
+    }
+  }
+  for (let y = 0; y < h; y++) {
+    const leftPos = y * w;
+    if (!visited[leftPos] && isBackdropRed(leftPos * 4)) {
+      visited[leftPos] = 1;
+      queue.push(leftPos);
+    }
+    const rightPos = y * w + (w - 1);
+    if (!visited[rightPos] && isBackdropRed(rightPos * 4)) {
+      visited[rightPos] = 1;
+      queue.push(rightPos);
+    }
+  }
+
+  let head = 0;
+  while (head < queue.length) {
+    const pos = queue[head++];
+    data[pos * 4 + 3] = 0; // Make exterior red backdrop transparent
+
+    const x = pos % w;
+    const y = (pos - x) / w;
+
+    const neighbors = [
+      x > 0 ? pos - 1 : -1,
+      x < w - 1 ? pos + 1 : -1,
+      y > 0 ? pos - w : -1,
+      y < h - 1 ? pos + w : -1,
+    ];
+
+    for (let i = 0; i < 4; i++) {
+      const n = neighbors[i];
+      if (n >= 0 && !visited[n] && isBackdropRed(n * 4)) {
+        visited[n] = 1;
+        queue.push(n);
+      }
+    }
+  }
+
+  // Soft 1px fringe cleanup ONLY on pixels immediately touching removed backdrop
+  for (let y = 1; y < h - 1; y++) {
+    for (let x = 1; x < w - 1; x++) {
+      const pos = y * w + x;
+      if (!visited[pos]) {
+        if (visited[pos - 1] || visited[pos + 1] || visited[pos - w] || visited[pos + w]) {
+          const idx = pos * 4;
+          if (data[idx] > 110 && data[idx] - Math.max(data[idx + 1], data[idx + 2]) > 45) {
+            data[idx + 3] = 90;
+          }
+        }
+      }
     }
   }
 
