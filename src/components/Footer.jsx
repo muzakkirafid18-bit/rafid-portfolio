@@ -1,4 +1,4 @@
-import { ArrowUp, Terminal, Heart, Code2 } from 'lucide-react';
+import { ArrowUp } from 'lucide-react';
 
 export default function Footer() {
   const scrollToTop = () => {
@@ -6,49 +6,62 @@ export default function Footer() {
   };
 
   return (
-    <footer className="py-12 border-t border-slate-900 bg-[#04060d] text-slate-400 font-mono text-xs">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-6">
-        
-        {/* Left */}
-        <div className="flex items-center gap-3">
-          <div className="w-8 h-8 rounded-lg bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400">
-            <Terminal className="w-4 h-4" />
-          </div>
-          <div>
-            <p className="text-slate-200 font-semibold">
-              Rafid Muzakki Putra Andryan
-            </p>
-            <p className="text-[11px] text-slate-500 mt-0.5">
-              Backend Developer • SMKN 1 Cibinong
+    <footer className="relative border-t border-white/10 bg-[#04040d]/90 backdrop-blur-md">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-start">
+          
+          {/* Brand */}
+          <div className="md:col-span-5 space-y-3">
+            <div className="font-mono text-lg font-bold text-white flex items-center gap-1.5">
+              <span className="text-blue-400">&gt;_</span>
+              <span>Rafid.dev</span>
+            </div>
+            <p className="text-xs sm:text-sm text-slate-400 max-w-sm leading-relaxed">
+              Backend Developer & Database Architect from SMKN 1 Cibinong. Crafting clean APIs and solid relational systems.
             </p>
           </div>
+
+          {/* Navigation */}
+          <div className="hidden md:block md:col-span-3 space-y-2.5">
+            <h4 className="text-xs font-mono uppercase tracking-wider text-slate-400 font-semibold">
+              Navigasi
+            </h4>
+            <ul className="space-y-1.5 text-xs text-slate-400">
+              <li><a href="#Home" className="hover:text-blue-400 transition-colors">Home</a></li>
+              <li><a href="#About" className="hover:text-blue-400 transition-colors">About</a></li>
+              <li><a href="#Portofolio" className="hover:text-blue-400 transition-colors">Portfolio</a></li>
+              <li><a href="#api-playground" className="hover:text-blue-400 transition-colors">API Console</a></li>
+              <li><a href="#Contact" className="hover:text-blue-400 transition-colors">Contact</a></li>
+            </ul>
+          </div>
+
+          {/* Connect & Back to Top */}
+          <div className="md:col-span-4 flex flex-col md:items-end justify-between space-y-4">
+            <div className="hidden md:block text-right space-y-1.5">
+              <h4 className="text-xs font-mono uppercase tracking-wider text-slate-400 font-semibold">
+                Terhubung
+              </h4>
+              <div className="flex items-center justify-end gap-4 text-xs text-slate-400">
+                <a href="https://github.com/muzakkirafid18-bit" target="_blank" rel="noreferrer" className="hover:text-white">GitHub</a>
+                <a href="https://www.linkedin.com/in/rafid-muzakki-1069733a8/" target="_blank" rel="noreferrer" className="hover:text-blue-400">LinkedIn</a>
+                <a href="https://www.instagram.com/812.raf/" target="_blank" rel="noreferrer" className="hover:text-pink-400">Instagram</a>
+              </div>
+            </div>
+
+            <button
+              onClick={scrollToTop}
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-white/5 hover:bg-blue-600/20 border border-white/10 hover:border-blue-400/40 text-xs font-mono text-slate-300 hover:text-white transition-all w-fit"
+            >
+              <span>Kembali ke Atas</span>
+              <ArrowUp className="w-3.5 h-3.5 text-blue-400" />
+            </button>
+          </div>
         </div>
 
-        {/* Center / System Status */}
-        <div className="flex items-center gap-3 px-3 py-1.5 rounded-full bg-slate-900/80 border border-slate-800 text-[11px]">
-          <span className="flex h-2 w-2 relative">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-            <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
-          </span>
-          <span className="text-slate-300">Status: 200 OK</span>
-          <span className="text-slate-600">•</span>
-          <span className="text-emerald-400 font-semibold">Ready for Vercel Deploy</span>
+        <div className="mt-10 pt-6 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-slate-500 font-mono">
+          <span>© {new Date().getFullYear()} RafidDev. All rights reserved.</span>
+          <span>Built with React, Three.js & Tailwind CSS</span>
         </div>
-
-        {/* Right */}
-        <div className="flex items-center gap-4">
-          <p className="text-slate-500 text-[11px]">
-            © {new Date().getFullYear()} Rafid. All rights reserved.
-          </p>
-          <button
-            onClick={scrollToTop}
-            className="p-2 rounded-xl bg-slate-900 border border-slate-800 hover:border-emerald-500/40 text-slate-400 hover:text-white transition-all hover:-translate-y-0.5"
-            title="Kembali ke Atas"
-          >
-            <ArrowUp className="w-4 h-4" />
-          </button>
-        </div>
-
       </div>
     </footer>
   );

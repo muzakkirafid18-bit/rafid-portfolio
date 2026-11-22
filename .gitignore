@@ -29,3 +29,9 @@ LSP Dicoding/
 
 # E-Voting OSIS project (separate Laravel project)
 evoting-osis/
+
+
+# Environment variables (never commit secrets)
+.env
+.env.*
+!.env.example
