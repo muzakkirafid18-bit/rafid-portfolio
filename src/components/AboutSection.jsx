@@ -1,4 +1,4 @@
-import { Code2, FileText, ArrowUpRight, Terminal } from 'lucide-react';
+import { Code2, FileText, ArrowUpRight } from 'lucide-react';
 
 export default function AboutSection() {
   return (
@@ -40,49 +40,81 @@ export default function AboutSection() {
             </div>
           </div>
 
-          {/* Center Column (4 cols): Portrait Stage with Orbit + Hacker Hoodie Hover */}
+          {/* Center Column (4 cols): Clean Cutout Portrait + Orbit + Spider-Man Hover Effect */}
           <div className="lg:col-span-4 flex justify-center relative">
-            <div className="relative w-72 h-96 sm:w-80 sm:h-[420px] flex items-center justify-center group">
+            <div className="relative w-72 h-96 sm:w-80 sm:h-[430px] flex items-center justify-center group">
               
               {/* Subtle Orbit Rings behind portrait */}
               <div className="absolute w-72 h-72 rounded-full border border-blue-400/15 about-orbit-ring pointer-events-none">
                 <span className="absolute -top-1 left-1/2 -translate-x-1/2 w-2 h-2 rounded-full bg-blue-400 shadow-[0_0_10px_#3b82f6]"></span>
               </div>
               <div className="absolute w-56 h-56 rounded-full border border-indigo-400/15 about-orbit-ring-reverse pointer-events-none">
-                <span className="absolute bottom-2 right-4 w-1.5 h-1.5 rounded-full bg-purple-400 shadow-[0_0_10px_#a855f7]"></span>
+                <span className="absolute bottom-2 right-4 w-1.5 h-1.5 rounded-full bg-red-500 shadow-[0_0_10px_#ef4444]"></span>
               </div>
 
-              {/* Ambient Cosmic Backlight */}
-              <div className="absolute inset-8 rounded-full bg-blue-600/15 group-hover:bg-blue-500/30 blur-3xl transition-all duration-500 pointer-events-none"></div>
+              {/* Ambient Backlight (transitions from Cosmic Blue to Spider-Man Red on hover!) */}
+              <div className="absolute inset-8 rounded-full bg-blue-600/15 group-hover:bg-red-600/30 blur-3xl transition-all duration-500 pointer-events-none"></div>
 
-              {/* Portrait Container (blends smoothly into #050510) */}
+              {/* Clean Cutout Portrait (no garden/house background, blends seamlessly into #050510) */}
               <div
-                className="relative w-full h-full flex items-end justify-center overflow-hidden rounded-3xl"
+                className="relative w-full h-full flex items-end justify-center overflow-hidden"
                 style={{
-                  maskImage: 'radial-gradient(ellipse 82% 85% at 50% 48%, black 52%, transparent 96%)',
-                  WebkitMaskImage: 'radial-gradient(ellipse 82% 85% at 50% 48%, black 52%, transparent 96%)',
+                  maskImage: 'linear-gradient(to bottom, black 78%, transparent 100%)',
+                  WebkitMaskImage: 'linear-gradient(to bottom, black 78%, transparent 100%)',
                 }}
               >
-                {/* Base Photo */}
                 <img
-                  src="/about-rafid.jpg"
+                  src="/about-rafid-clean.jpg"
                   alt="Rafid Muzakki Putra Andryan"
-                  className="w-full h-full object-cover object-center transition-all duration-500 group-hover:opacity-0"
+                  className="w-full h-full object-contain object-bottom mix-blend-lighten transition-transform duration-500 group-hover:scale-[1.03]"
                 />
 
-                {/* Hacker Hoodie Hover Image (smooth crossfade just like Spider-Man hover) */}
-                <img
-                  src="/about-rafid-hacker.jpg"
-                  alt="Rafid Muzakki Hacker Hoodie"
-                  className="absolute inset-0 w-full h-full object-cover object-center opacity-0 group-hover:opacity-100 transition-all duration-500 group-hover:scale-[1.03]"
-                />
+                {/* Spider-Man Suit Hover Reveal Overlay over torso & collar */}
+                <div
+                  className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none mix-blend-screen"
+                  style={{
+                    maskImage: 'radial-gradient(ellipse 46% 38% at 32% 66%, black 30%, transparent 78%)',
+                    WebkitMaskImage: 'radial-gradient(ellipse 46% 38% at 32% 66%, black 30%, transparent 78%)',
+                  }}
+                >
+                  {/* Red Suit Glow */}
+                  <div
+                    className="absolute inset-0"
+                    style={{
+                      background:
+                        'radial-gradient(circle at 32% 66%, rgba(220, 38, 38, 0.85), rgba(153, 27, 27, 0.55) 45%, transparent 75%)',
+                    }}
+                  ></div>
 
-                {/* Hacker Mode Badge */}
-                <div className="absolute inset-x-0 bottom-7 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex justify-center pointer-events-none">
-                  <span className="px-3 py-1 rounded-full bg-blue-950/85 border border-blue-400/50 text-blue-200 font-mono text-[10px] backdrop-blur-md flex items-center gap-1.5 shadow-[0_0_20px_rgba(59,130,246,0.45)]">
-                    <Terminal className="w-3 h-3 text-blue-400" />
-                    <span>&lt;hacker_mode /&gt;</span>
-                  </span>
+                  {/* Spider-Man Web Pattern & Emblem SVG */}
+                  <svg
+                    viewBox="0 0 200 260"
+                    className="absolute inset-0 w-full h-full opacity-85"
+                    fill="none"
+                  >
+                    <g stroke="#09090b" strokeWidth="1.6" strokeOpacity="0.85">
+                      {/* Radial web lines centered on chest (x=64, y=172) */}
+                      <line x1="64" y1="172" x2="20" y2="115" />
+                      <line x1="64" y1="172" x2="64" y2="105" />
+                      <line x1="64" y1="172" x2="115" y2="120" />
+                      <line x1="64" y1="172" x2="125" y2="172" />
+                      <line x1="64" y1="172" x2="112" y2="225" />
+                      <line x1="64" y1="172" x2="64" y2="240" />
+                      <line x1="64" y1="172" x2="18" y2="220" />
+                      <line x1="64" y1="172" x2="8" y2="172" />
+                      {/* Concentric web rings */}
+                      <circle cx="64" cy="172" r="18" />
+                      <circle cx="64" cy="172" r="34" />
+                      <circle cx="64" cy="172" r="50" />
+                    </g>
+                    {/* Black Spider Chest Emblem */}
+                    <g fill="#050507" transform="translate(64, 172)">
+                      <ellipse cx="0" cy="2" rx="4.5" ry="7" />
+                      <circle cx="0" cy="-7" r="3" />
+                      <path d="M-4 -3 Q-14 -14 -17 -22 M-4 -1 Q-16 -5 -21 -12 M-4 2 Q-16 6 -20 15 M-3 5 Q-12 16 -14 25" stroke="#050507" strokeWidth="2.4" strokeLinecap="round" />
+                      <path d="M4 -3 Q14 -14 17 -22 M4 -1 Q16 -5 21 -12 M4 2 Q16 6 20 15 M3 5 Q12 16 14 25" stroke="#050507" strokeWidth="2.4" strokeLinecap="round" />
+                    </g>
+                  </svg>
                 </div>
               </div>
             </div>
