@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import * as THREE from 'three';
 
 function createCardFrontTexture(photoImg) {
@@ -37,7 +37,7 @@ function createCardFrontTexture(photoImg) {
   topGrad.addColorStop(0.5, '#6366f1');
   topGrad.addColorStop(1, '#a855f7');
   ctx.fillStyle = topGrad;
-  ctx.fillRect(0, 0, 512, 12);
+  ctx.fillRect(0, 0, 512, 14);
 
   // Lanyard slot cutout
   ctx.fillStyle = '#04050e';
@@ -50,7 +50,7 @@ function createCardFrontTexture(photoImg) {
 
   // School & Major Header
   ctx.fillStyle = '#60a5fa';
-  ctx.font = 'bold 20px "JetBrains Mono", monospace';
+  ctx.font = 'bold 21px "JetBrains Mono", monospace';
   ctx.textAlign = 'center';
   ctx.fillText('SMKN 1 CIBINONG', 256, 82);
 
@@ -61,7 +61,7 @@ function createCardFrontTexture(photoImg) {
   // Photo Frame with glowing ring
   const centerX = 256;
   const centerY = 265;
-  const radius = 112;
+  const radius = 114;
 
   const ringGrad = ctx.createLinearGradient(centerX - radius, centerY - radius, centerX + radius, centerY + radius);
   ringGrad.addColorStop(0, '#3b82f6');
@@ -69,7 +69,7 @@ function createCardFrontTexture(photoImg) {
   ringGrad.addColorStop(1, '#a855f7');
 
   ctx.beginPath();
-  ctx.arc(centerX, centerY, radius + 6, 0, Math.PI * 2);
+  ctx.arc(centerX, centerY, radius + 7, 0, Math.PI * 2);
   ctx.fillStyle = ringGrad;
   ctx.fill();
 
@@ -91,11 +91,11 @@ function createCardFrontTexture(photoImg) {
   ctx.restore();
 
   // Role Pill
-  ctx.fillStyle = 'rgba(37, 99, 235, 0.22)';
+  ctx.fillStyle = 'rgba(37, 99, 235, 0.25)';
   ctx.beginPath();
-  ctx.roundRect(116, 405, 280, 40, 20);
+  ctx.roundRect(112, 404, 288, 42, 21);
   ctx.fill();
-  ctx.strokeStyle = 'rgba(96, 165, 250, 0.55)';
+  ctx.strokeStyle = 'rgba(96, 165, 250, 0.65)';
   ctx.lineWidth = 2;
   ctx.stroke();
 
@@ -105,19 +105,19 @@ function createCardFrontTexture(photoImg) {
 
   // Name
   ctx.fillStyle = '#ffffff';
-  ctx.font = 'bold 34px "Space Grotesk", sans-serif';
-  ctx.fillText('Rafid Muzakki', 256, 492);
+  ctx.font = 'bold 38px "Space Grotesk", sans-serif';
+  ctx.fillText('Rafid Muzakki', 256, 495);
 
   ctx.fillStyle = '#cbd5e1';
   ctx.font = '600 22px "Space Grotesk", sans-serif';
-  ctx.fillText('Putra Andryan', 256, 524);
+  ctx.fillText('Putra Andryan', 256, 528);
 
   // Divider
-  ctx.strokeStyle = 'rgba(255, 255, 255, 0.1)';
+  ctx.strokeStyle = 'rgba(255, 255, 255, 0.12)';
   ctx.lineWidth = 1.5;
   ctx.beginPath();
-  ctx.moveTo(48, 558);
-  ctx.lineTo(464, 558);
+  ctx.moveTo(48, 560);
+  ctx.lineTo(464, 560);
   ctx.stroke();
 
   // Stack footer
@@ -149,7 +149,7 @@ function createCardFrontTexture(photoImg) {
   });
 
   // Outer border
-  ctx.strokeStyle = 'rgba(96, 165, 250, 0.35)';
+  ctx.strokeStyle = 'rgba(96, 165, 250, 0.4)';
   ctx.lineWidth = 4;
   ctx.strokeRect(2, 2, 508, 736);
 
@@ -174,7 +174,7 @@ function createCardBackTexture() {
   topGrad.addColorStop(0, '#a855f7');
   topGrad.addColorStop(1, '#2563eb');
   ctx.fillStyle = topGrad;
-  ctx.fillRect(0, 0, 512, 12);
+  ctx.fillRect(0, 0, 512, 14);
 
   ctx.fillStyle = '#04050e';
   ctx.beginPath();
@@ -182,17 +182,17 @@ function createCardBackTexture() {
   ctx.fill();
 
   ctx.textAlign = 'center';
-  ctx.fillStyle = '#3b82f6';
-  ctx.font = 'bold 22px "JetBrains Mono", monospace';
-  ctx.fillText('>_ RAFID.DEV', 256, 160);
+  ctx.fillStyle = '#60a5fa';
+  ctx.font = 'bold 26px "Space Grotesk", sans-serif';
+  ctx.fillText('Rafid Muzakki', 256, 155);
 
   ctx.fillStyle = '#ffffff';
-  ctx.font = 'bold 42px "Space Grotesk", sans-serif';
-  ctx.fillText('PORTFOLIO', 256, 235);
+  ctx.font = 'bold 44px "Space Grotesk", sans-serif';
+  ctx.fillText('PORTFOLIO', 256, 230);
 
   ctx.fillStyle = '#a5b4fc';
   ctx.font = 'italic 20px "Inter", sans-serif';
-  ctx.fillText('"Clean Code, Solid Backend"', 256, 290);
+  ctx.fillText('"Clean Code, Solid Backend"', 256, 285);
 
   ctx.strokeStyle = 'rgba(99, 102, 241, 0.45)';
   ctx.lineWidth = 2;
@@ -211,7 +211,7 @@ function createCardBackTexture() {
   ctx.font = '600 16px "JetBrains Mono", monospace';
   ctx.fillText('rafid-dev-portfolio.vercel.app', 256, 650);
 
-  ctx.strokeStyle = 'rgba(99, 102, 241, 0.35)';
+  ctx.strokeStyle = 'rgba(99, 102, 241, 0.4)';
   ctx.lineWidth = 4;
   ctx.strokeRect(2, 2, 508, 736);
 
@@ -230,46 +230,48 @@ function createStrapTexture() {
   ctx.fillRect(0, 0, 512, 128);
 
   ctx.fillStyle = '#2563eb';
-  ctx.fillRect(0, 0, 512, 10);
-  ctx.fillRect(0, 118, 512, 10);
+  ctx.fillRect(0, 0, 512, 12);
+  ctx.fillRect(0, 116, 512, 12);
 
-  ctx.fillStyle = '#e2e8f0';
-  ctx.font = 'bold 28px "Space Grotesk", sans-serif';
+  ctx.fillStyle = '#f8fafc';
+  ctx.font = 'bold 34px "Space Grotesk", sans-serif';
   ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';
-  ctx.fillText('RAFID MUZAKKI  •  BACKEND DEV', 256, 64);
+  ctx.fillText('RAFID MUZAKKI  •  RAFID MUZAKKI', 256, 64);
 
   const texture = new THREE.CanvasTexture(canvas);
   texture.wrapS = THREE.RepeatWrapping;
   texture.wrapT = THREE.ClampToEdgeWrapping;
-  texture.repeat.set(4, 1);
+  texture.repeat.set(3, 1);
   texture.colorSpace = THREE.SRGBColorSpace;
   return texture;
 }
 
 export default function Lanyard3D() {
   const mountRef = useRef(null);
-  const [isDragging, setIsDragging] = useState(false);
 
   useEffect(() => {
     const container = mountRef.current;
     if (!container) return;
 
-    const width = container.clientWidth || 500;
-    const height = container.clientHeight || 540;
+    const getSize = () => ({
+      width: container.clientWidth || window.innerWidth,
+      height: container.clientHeight || 680,
+    });
+
+    let { width, height } = getSize();
 
     const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(40, width / height, 0.1, 100);
-    camera.position.set(0, 0.1, 9.5);
+    const camera = new THREE.PerspectiveCamera(38, width / height, 0.1, 100);
+    camera.position.set(0, 0, 10.5);
 
     const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
     renderer.setSize(width, height);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-    renderer.domElement.style.touchAction = 'none';
     container.appendChild(renderer.domElement);
 
     // Lighting
-    const ambientLight = new THREE.AmbientLight(0xffffff, 1.5);
+    const ambientLight = new THREE.AmbientLight(0xffffff, 1.55);
     scene.add(ambientLight);
 
     const keyLight = new THREE.DirectionalLight(0x93c5fd, 1.9);
@@ -280,7 +282,7 @@ export default function Lanyard3D() {
     rimLight.position.set(-5, 2, -4);
     scene.add(rimLight);
 
-    // Card Group
+    // Card Group (Bigger size: 2.55 x 3.65)
     const cardGroup = new THREE.Group();
     scene.add(cardGroup);
 
@@ -296,22 +298,21 @@ export default function Lanyard3D() {
       metalness: 0.15,
     });
 
-    const cardGeo = new THREE.BoxGeometry(2.05, 2.95, 0.06);
+    const cardGeo = new THREE.BoxGeometry(2.55, 3.65, 0.07);
     const cardMesh = new THREE.Mesh(cardGeo, [sideMat, sideMat, sideMat, sideMat, frontMat, backMat]);
-    // Offset card down from the clasp pivot so it hangs naturally from the clip
-    cardMesh.position.set(0, -1.55, 0);
+    cardMesh.position.set(0, -1.9, 0);
     cardGroup.add(cardMesh);
 
-    const clipGeo = new THREE.CylinderGeometry(0.075, 0.075, 0.42, 16);
+    const clipGeo = new THREE.CylinderGeometry(0.09, 0.09, 0.5, 16);
     const clipMat = new THREE.MeshStandardMaterial({ color: 0x94a3b8, metalness: 0.85, roughness: 0.2 });
     const clipMesh = new THREE.Mesh(clipGeo, clipMat);
     clipMesh.rotation.z = Math.PI / 2;
-    clipMesh.position.set(0, -0.05, 0);
+    clipMesh.position.set(0, -0.04, 0);
     cardGroup.add(clipMesh);
 
-    const hookGeo = new THREE.TorusGeometry(0.12, 0.032, 12, 24);
+    const hookGeo = new THREE.TorusGeometry(0.14, 0.036, 12, 24);
     const hookMesh = new THREE.Mesh(hookGeo, clipMat);
-    hookMesh.position.set(0, 0.08, 0);
+    hookMesh.position.set(0, 0.11, 0);
     cardGroup.add(hookMesh);
 
     // Load formal photo
@@ -323,12 +324,21 @@ export default function Lanyard3D() {
       frontMat.needsUpdate = true;
     };
 
-    // Multi-segment Verlet Rope Physics (8 nodes from top anchor to card clasp)
+    // Anchor on the right column on desktop, centered lower on mobile
+    const computeAnchor = (w, h) => {
+      const isDesktop = w >= 1024;
+      const aspect = w / h;
+      if (isDesktop) {
+        return new THREE.Vector3(Math.min(aspect * 1.45, 2.55), 3.7, 0);
+      }
+      return new THREE.Vector3(0, 1.35, 0);
+    };
+
+    let anchorPos = computeAnchor(width, height);
     const numNodes = 8;
-    const anchorPos = new THREE.Vector3(0, 4.1, 0);
-    const segLength = 0.38;
+    const segLength = 0.34;
     const nodes = Array.from({ length: numNodes }, (_, i) => {
-      const p = new THREE.Vector3(0, anchorPos.y - i * segLength, 0);
+      const p = new THREE.Vector3(anchorPos.x, anchorPos.y - i * segLength, 0);
       return { pos: p.clone(), oldPos: p.clone() };
     });
 
@@ -346,12 +356,13 @@ export default function Lanyard3D() {
       }
       const points = nodes.map((n) => n.pos.clone());
       const curve = new THREE.CatmullRomCurve3(points);
-      const tubeGeo = new THREE.TubeGeometry(curve, 28, 0.085, 8, false);
+      const tubeGeo = new THREE.TubeGeometry(curve, 28, 0.11, 8, false);
       strapMesh = new THREE.Mesh(tubeGeo, strapMat);
       scene.add(strapMesh);
     };
 
-    // Raycaster for exact 1:1 cursor-to-3D-world dragging all the way to the edges
+    // Raycasting on window so clicks pass through when NOT on the card,
+    // and when grabbing the card you can pull it anywhere across the entire Hero!
     const raycaster = new THREE.Raycaster();
     const dragPlane = new THREE.Plane(new THREE.Vector3(0, 0, 1), 0);
     const intersectPoint = new THREE.Vector3();
@@ -378,13 +389,11 @@ export default function Lanyard3D() {
       raycaster.setFromCamera(pointerNDC, camera);
       const hits = raycaster.intersectObject(cardMesh, false);
 
-      // Allow grabbing anywhere on the card or nearby
-      if (hits.length > 0 || raycaster.ray.intersectPlane(dragPlane, intersectPoint)) {
+      if (hits.length > 0) {
         dragging = true;
-        setIsDragging(true);
         prevPointerX = clientX;
+        document.body.style.cursor = 'grabbing';
         if (raycaster.ray.intersectPlane(dragPlane, intersectPoint)) {
-          // Clasp is the last node
           const endNode = nodes[numNodes - 1].pos;
           dragOffset.copy(endNode).sub(intersectPoint);
           dragTarget.copy(endNode);
@@ -393,41 +402,47 @@ export default function Lanyard3D() {
     };
 
     const onPointerMove = (e) => {
-      if (!dragging) return;
       const clientX = e.touches ? e.touches[0].clientX : e.clientX;
       const clientY = e.touches ? e.touches[0].clientY : e.clientY;
       updatePointerNDC(clientX, clientY);
-
       raycaster.setFromCamera(pointerNDC, camera);
+
+      if (!dragging) {
+        const hits = raycaster.intersectObject(cardMesh, false);
+        document.body.style.cursor = hits.length > 0 ? 'grab' : '';
+        return;
+      }
+
       if (raycaster.ray.intersectPlane(dragPlane, intersectPoint)) {
         dragTarget.copy(intersectPoint).add(dragOffset);
       }
 
       const dx = clientX - prevPointerX;
-      rotYVel = THREE.MathUtils.clamp(dx * 0.012, -0.28, 0.28);
+      rotYVel = THREE.MathUtils.clamp(dx * 0.014, -0.32, 0.32);
       prevPointerX = clientX;
     };
 
     const onPointerUp = () => {
       if (dragging) {
         dragging = false;
-        setIsDragging(false);
+        document.body.style.cursor = '';
       }
     };
 
-    const domElem = renderer.domElement;
-    domElem.addEventListener('pointerdown', onPointerDown);
+    window.addEventListener('pointerdown', onPointerDown);
     window.addEventListener('pointermove', onPointerMove);
     window.addEventListener('pointerup', onPointerUp);
     window.addEventListener('pointercancel', onPointerUp);
 
     const handleResize = () => {
       if (!container) return;
-      const w = container.clientWidth || 500;
-      const h = container.clientHeight || 540;
-      camera.aspect = w / h;
+      const size = getSize();
+      width = size.width;
+      height = size.height;
+      camera.aspect = width / height;
       camera.updateProjectionMatrix();
-      renderer.setSize(w, h);
+      renderer.setSize(width, height);
+      anchorPos = computeAnchor(width, height);
     };
     window.addEventListener('resize', handleResize);
 
@@ -438,8 +453,7 @@ export default function Lanyard3D() {
     const animate = () => {
       const t = clock.getElapsedTime();
 
-      // 1. Verlet Integration for each rope node
-      const gravity = -0.014;
+      const gravity = -0.015;
       const damping = 0.965;
 
       for (let i = 1; i < numNodes; i++) {
@@ -453,21 +467,17 @@ export default function Lanyard3D() {
         n.pos.y += vy + gravity;
         n.pos.z += vz;
 
-        // Subtle idle cosmic breeze when not dragging
         if (!dragging && i === numNodes - 1) {
           n.pos.x += Math.sin(t * 1.4) * 0.0025;
         }
       }
 
-      // 2. Pin anchor & handle active drag on the clasp node
       nodes[0].pos.copy(anchorPos);
       if (dragging) {
-        nodes[numNodes - 1].pos.lerp(dragTarget, 0.65);
+        nodes[numNodes - 1].pos.lerp(dragTarget, 0.72);
       }
 
-      // 3. Distance constraints (multiple iterations for crisp, non-stretchy rope)
-      // When dragged far to the edge, allow slight elastic stretch so it reaches all the way!
-      const maxStretchRatio = dragging ? 1.65 : 1.0;
+      const maxStretchRatio = dragging ? 2.4 : 1.0;
       for (let iter = 0; iter < 8; iter++) {
         nodes[0].pos.copy(anchorPos);
         if (dragging) {
@@ -495,7 +505,6 @@ export default function Lanyard3D() {
         }
       }
 
-      // 4. Position & orient card from the last two rope nodes
       const claspPos = nodes[numNodes - 1].pos;
       const prevNodePos = nodes[numNodes - 2].pos;
       cardGroup.position.copy(claspPos);
@@ -504,7 +513,7 @@ export default function Lanyard3D() {
       const tiltZ = Math.atan2(ropeDir.x, -ropeDir.y);
       cardGroup.rotation.z = THREE.MathUtils.lerp(
         cardGroup.rotation.z,
-        THREE.MathUtils.clamp(tiltZ, -0.85, 0.85),
+        THREE.MathUtils.clamp(tiltZ, -0.9, 0.9),
         0.35
       );
       cardGroup.rotation.x = THREE.MathUtils.lerp(
@@ -532,7 +541,8 @@ export default function Lanyard3D() {
 
     return () => {
       cancelAnimationFrame(frameId);
-      domElem.removeEventListener('pointerdown', onPointerDown);
+      document.body.style.cursor = '';
+      window.removeEventListener('pointerdown', onPointerDown);
       window.removeEventListener('pointermove', onPointerMove);
       window.removeEventListener('pointerup', onPointerUp);
       window.removeEventListener('pointercancel', onPointerUp);
@@ -540,25 +550,16 @@ export default function Lanyard3D() {
       if (strapMesh) strapMesh.geometry.dispose();
       cardGeo.dispose();
       renderer.dispose();
-      if (container.contains(domElem)) {
-        container.removeChild(domElem);
+      if (container.contains(renderer.domElement)) {
+        container.removeChild(renderer.domElement);
       }
     };
   }, []);
 
   return (
-    <div className="relative w-full h-[460px] sm:h-[540px] flex flex-col items-center justify-center select-none">
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-72 h-72 rounded-full bg-blue-600/20 blur-[95px] pointer-events-none"></div>
-
-      <div
-        ref={mountRef}
-        className={`w-full h-full ${isDragging ? 'cursor-grabbing' : 'cursor-grab'}`}
-        title="Tarik & lempar kartu ID 3D ke segala arah!"
-      />
-
-      <p className="text-[11px] font-mono text-slate-400/80 -mt-3 pointer-events-none">
-        ✦ Tarik & geser kartu ID 3D sampai ujung layar
-      </p>
-    </div>
+    <div
+      ref={mountRef}
+      className="absolute inset-0 z-[60] pointer-events-none select-none overflow-visible"
+    />
   );
 }

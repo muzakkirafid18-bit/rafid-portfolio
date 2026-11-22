@@ -14,7 +14,7 @@ import { GithubIcon, LinkedinIcon, InstagramIcon, DiscordIcon } from './Icons';
 import confetti from 'canvas-confetti';
 import { supabase, isSupabaseConfigured } from '../lib/supabaseClient';
 
-const STORAGE_KEY = 'rafid_portfolio_comments_v1';
+const STORAGE_KEY = 'rafid_portfolio_comments_v2';
 
 const STARTER_COMMENTS = [
   {
@@ -26,15 +26,15 @@ const STARTER_COMMENTS = [
   },
   {
     id: 'c-2',
-    name: 'Rizky Pratama',
+    name: 'Rizky Radiansyah',
     message: 'Keren banget 3D Lanyard dan REST API Playground-nya, jarang ada anak SMK bikin portofolio sedetail ini 🔥',
     avatar_url: null,
     created_at: '2026-11-05T14:15:00.000Z',
   },
   {
     id: 'c-3',
-    name: 'Nadia Putri',
-    message: 'Sukses buat uji kompetensi BNSP bulan ini, Rafid!',
+    name: 'Anggi Rahmawati',
+    message: 'Musbir jeyek',
     avatar_url: null,
     created_at: '2026-11-12T18:40:00.000Z',
   },

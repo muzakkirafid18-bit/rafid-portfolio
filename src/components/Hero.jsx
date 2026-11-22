@@ -37,8 +37,11 @@ export default function Hero() {
   }, [displayedText, isDeleting, currentRoleIdx]);
 
   return (
-    <section id="Home" className="relative pt-28 pb-16 sm:pt-36 sm:pb-24 overflow-hidden">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="Home" className="relative pt-28 pb-16 sm:pt-36 sm:pb-24 overflow-visible min-h-[680px]">
+      {/* Full-Hero Top-Layer 3D Lanyard Overlay (never clipped when dragged!) */}
+      <Lanyard3D />
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center">
           
           {/* Left Column: Cosmic Intro & CTA */}
@@ -137,9 +140,12 @@ export default function Hero() {
             </div>
           </div>
 
-          {/* Right Column: Interactive 3D Lanyard */}
-          <div className="lg:col-span-5 relative">
-            <Lanyard3D />
+          {/* Right Column: Spacer & Ambient Glow for Top-Layer 3D Lanyard */}
+          <div className="lg:col-span-5 relative h-[460px] sm:h-[520px] flex flex-col items-center justify-end pointer-events-none">
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-72 h-72 rounded-full bg-blue-600/20 blur-[95px]"></div>
+            <p className="text-[11px] font-mono text-slate-400/80 mb-2">
+              ✦ Tarik & geser kartu ID 3D sampai ujung layar
+            </p>
           </div>
 
         </div>

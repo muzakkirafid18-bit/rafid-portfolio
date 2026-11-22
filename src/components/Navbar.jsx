@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { Menu, X, Volume2, VolumeX, FileDown, Terminal } from 'lucide-react';
+import { Menu, X, Volume2, VolumeX, FileDown } from 'lucide-react';
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
@@ -8,6 +8,7 @@ export default function Navbar() {
 
   const audioCtxRef = useRef(null);
   const masterGainRef = useRef(null);
+  const chimeIntervalRef = useRef(null);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -17,31 +18,48 @@ export default function Navbar() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Synthesize soft ambient cosmic pad with Web Audio API
-  const toggleAudio = () => {
+  const playCosmicChime = (ctx, dest, freq) => {
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(freq, ctx.currentTime);
+    gain.gain.setValueAtTime(0.001, ctx.currentTime);
+    gain.gain.linearRampToValueAtTime(0.18, ctx.currentTime + 0.08);
+    gain.gain.exponentialRampToValueAtTime(0.0005, ctx.currentTime + 2.4);
+    osc.connect(gain);
+    gain.connect(dest);
+    osc.start();
+    osc.stop(ctx.currentTime + 2.5);
+  };
+
+  const toggleAudio = async () => {
     if (!audioEnabled) {
       try {
         const AudioCtx = window.AudioContext || window.webkitAudioContext;
         if (!audioCtxRef.current) {
           const ctx = new AudioCtx();
+          if (ctx.state === 'suspended') {
+            await ctx.resume();
+          }
+
           const master = ctx.createGain();
           master.gain.setValueAtTime(0.001, ctx.currentTime);
-          master.gain.exponentialRampToValueAtTime(0.06, ctx.currentTime + 1.2);
+          master.gain.linearRampToValueAtTime(0.24, ctx.currentTime + 0.6);
           master.connect(ctx.destination);
 
-          // Soft cosmic chord (A2, E3, B3)
-          const freqs = [110, 164.81, 246.94];
+          // Warm audible cosmic pad (C4, G4, B4, D5)
+          const freqs = [130.81, 196.0, 246.94, 293.66];
           freqs.forEach((f, idx) => {
             const osc = ctx.createOscillator();
             const filter = ctx.createBiquadFilter();
-            osc.type = idx === 0 ? 'sine' : 'triangle';
+            osc.type = idx % 2 === 0 ? 'sine' : 'triangle';
             osc.frequency.setValueAtTime(f, ctx.currentTime);
 
             filter.type = 'lowpass';
-            filter.frequency.setValueAtTime(420, ctx.currentTime);
+            filter.frequency.setValueAtTime(1100, ctx.currentTime);
 
             const oscGain = ctx.createGain();
-            oscGain.gain.setValueAtTime(idx === 0 ? 0.5 : 0.25, ctx.currentTime);
+            oscGain.gain.setValueAtTime(idx === 0 ? 0.35 : 0.18, ctx.currentTime);
 
             osc.connect(filter);
             filter.connect(oscGain);
@@ -49,14 +67,28 @@ export default function Navbar() {
             osc.start();
           });
 
+          // Immediate confirmation chime so user hears it right away
+          playCosmicChime(ctx, master, 523.25);
+
+          // Gentle periodic cosmic notes
+          const notes = [523.25, 659.25, 587.33, 493.88, 783.99];
+          let noteIdx = 0;
+          chimeIntervalRef.current = setInterval(() => {
+            if (audioCtxRef.current && masterGainRef.current) {
+              playCosmicChime(audioCtxRef.current, masterGainRef.current, notes[noteIdx % notes.length]);
+              noteIdx++;
+            }
+          }, 3200);
+
           audioCtxRef.current = ctx;
           masterGainRef.current = master;
         } else {
           if (audioCtxRef.current.state === 'suspended') {
-            audioCtxRef.current.resume();
+            await audioCtxRef.current.resume();
           }
           masterGainRef.current.gain.cancelScheduledValues(audioCtxRef.current.currentTime);
-          masterGainRef.current.gain.linearRampToValueAtTime(0.06, audioCtxRef.current.currentTime + 0.6);
+          masterGainRef.current.gain.linearRampToValueAtTime(0.24, audioCtxRef.current.currentTime + 0.4);
+          playCosmicChime(audioCtxRef.current, masterGainRef.current, 523.25);
         }
         setAudioEnabled(true);
       } catch {
@@ -65,7 +97,7 @@ export default function Navbar() {
     } else {
       if (audioCtxRef.current && masterGainRef.current) {
         masterGainRef.current.gain.cancelScheduledValues(audioCtxRef.current.currentTime);
-        masterGainRef.current.gain.linearRampToValueAtTime(0.0001, audioCtxRef.current.currentTime + 0.4);
+        masterGainRef.current.gain.linearRampToValueAtTime(0.0001, audioCtxRef.current.currentTime + 0.35);
       }
       setAudioEnabled(false);
     }
@@ -73,6 +105,7 @@ export default function Navbar() {
 
   useEffect(() => {
     return () => {
+      if (chimeIntervalRef.current) clearInterval(chimeIntervalRef.current);
       if (audioCtxRef.current) {
         audioCtxRef.current.close().catch(() => {});
       }
@@ -92,21 +125,16 @@ export default function Navbar() {
       <div className="max-w-5xl mx-auto flex flex-col items-center">
         {/* Floating Liquid Glass Pill */}
         <div
-          className={`pointer-events-auto w-full sm:w-auto liquid-glass-nav rounded-full px-4 sm:px-6 py-2.5 flex items-center justify-between gap-4 sm:gap-8 transition-all duration-300 ${
+          className={`pointer-events-auto w-full sm:w-auto liquid-glass-nav rounded-full px-5 sm:px-7 py-2.5 flex items-center justify-between gap-4 sm:gap-8 transition-all duration-300 ${
             scrolled ? 'scale-[0.98] shadow-[0_12px_40px_rgba(37,99,235,0.22)]' : ''
           }`}
         >
-          {/* Brand Logo */}
+          {/* Clean Brand Text (No AI Slop Icon) */}
           <a
             href="#Home"
-            className="flex items-center gap-2 font-display font-bold text-sm sm:text-base text-white hover:text-blue-400 transition-colors shrink-0"
+            className="font-display font-bold text-base sm:text-lg tracking-tight text-white hover:text-blue-400 transition-colors shrink-0"
           >
-            <span className="w-7 h-7 rounded-full bg-blue-600/20 border border-blue-400/40 flex items-center justify-center text-blue-400">
-              <Terminal className="w-3.5 h-3.5" />
-            </span>
-            <span>
-              Rafid<span className="text-blue-400">Dev.</span>
-            </span>
+            Rafid<span className="text-blue-400">Dev.</span>
           </a>
 
           {/* Desktop Links */}
