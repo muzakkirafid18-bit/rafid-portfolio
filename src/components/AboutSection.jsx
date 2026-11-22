@@ -145,13 +145,19 @@ export default function AboutSection() {
                       </clipPath>
                     </defs>
 
-                    {/* 1. SPIDER-MAN SUIT ON WHITE T-SHIRT (blended so shirt folds stay realistic!) */}
-                    <g clipPath="url(#torsoSuitClip)" style={{ mixBlendMode: 'multiply' }}>
-                      <rect x="65" y="145" width="210" height="260" fill="url(#spideySuitGrad)" />
-                      {/* Webbing radiating from chest center (142, 268) */}
+                    {/* 1. FULL SPIDER-MAN SUIT (Neck, Chest, Shoulders & Arms — zero gaps!) */}
+                    <g clipPath="url(#rafidSubjectClip)" style={{ mixBlendMode: 'multiply' }}>
+                      {/* Base Spider-Man Suit: Red torso/neck/shoulders + Classic Blue lower sleeves/sides */}
+                      <rect x="60" y="130" width="220" height="275" fill="url(#spideySuitGrad)" />
+                      {/* Classic Spider-Man Blue side/forearm panels */}
+                      <path d="M 222 296 L 266 290 C 272 332, 275 370, 272 400 L 220 400 Z" fill="#1e3a8a" opacity="0.92" />
+                      <path d="M 88 300 L 116 322 L 104 400 L 84 400 Z" fill="#1e3a8a" opacity="0.88" />
+
+                      {/* Continuous Webbing across Neck, Chest & Shoulders */}
                       <g stroke="#09090b" strokeWidth="1.6" strokeOpacity="0.85" fill="none">
-                        <line x1="142" y1="268" x2="105" y2="165" />
-                        <line x1="142" y1="268" x2="175" y2="150" />
+                        <line x1="142" y1="268" x2="112" y2="140" />
+                        <line x1="142" y1="268" x2="152" y2="132" />
+                        <line x1="142" y1="268" x2="185" y2="145" />
                         <line x1="142" y1="268" x2="235" y2="180" />
                         <line x1="142" y1="268" x2="265" y2="268" />
                         <line x1="142" y1="268" x2="225" y2="395" />
@@ -162,8 +168,10 @@ export default function AboutSection() {
                         <circle cx="142" cy="268" r="44" />
                         <circle cx="142" cy="268" r="70" />
                         <circle cx="142" cy="268" r="98" />
+                        <circle cx="142" cy="268" r="128" />
                       </g>
-                      {/* Black Spider Chest Emblem */}
+
+                      {/* Iconic Black Spider Chest Emblem */}
                       <g fill="#050507" transform="translate(142, 268) rotate(-8)">
                         <ellipse cx="0" cy="2" rx="5.5" ry="9" />
                         <circle cx="0" cy="-9" r="3.5" />
