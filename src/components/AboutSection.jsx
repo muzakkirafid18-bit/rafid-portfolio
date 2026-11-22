@@ -1,6 +1,33 @@
+import { useState, useRef } from 'react';
 import { Code2, FileText, ArrowUpRight } from 'lucide-react';
 
 export default function AboutSection() {
+  const portraitRef = useRef(null);
+  const [cursor, setCursor] = useState({ x: 50, y: 50, active: false });
+
+  const handleMouseMove = (e) => {
+    const el = portraitRef.current;
+    if (!el) return;
+    const rect = el.getBoundingClientRect();
+    const x = ((e.clientX - rect.left) / rect.width) * 100;
+    const y = ((e.clientY - rect.top) / rect.height) * 100;
+    setCursor({ x, y, active: true });
+  };
+
+  const handleMouseLeave = () => {
+    setCursor((prev) => ({ ...prev, active: false }));
+  };
+
+  const maskStyle = cursor.active
+    ? {
+        maskImage: `radial-gradient(circle 92px at ${cursor.x}% ${cursor.y}%, black 48%, transparent 100%)`,
+        WebkitMaskImage: `radial-gradient(circle 92px at ${cursor.x}% ${cursor.y}%, black 48%, transparent 100%)`,
+      }
+    : {
+        maskImage: 'radial-gradient(circle 0px at 50% 50%, black 0%, transparent 0%)',
+        WebkitMaskImage: 'radial-gradient(circle 0px at 50% 50%, black 0%, transparent 0%)',
+      };
+
   return (
     <section id="About" className="py-24 sm:py-32 relative border-t border-white/5 overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -40,9 +67,9 @@ export default function AboutSection() {
             </div>
           </div>
 
-          {/* Center Column (4 cols): Clean Cutout Portrait + Orbit + Spider-Man Hover Effect */}
+          {/* Center Column (4 cols): Portrait Stage with Cursor-Tracked Spider-Man Spotlight Reveal */}
           <div className="lg:col-span-4 flex justify-center relative">
-            <div className="relative w-72 h-96 sm:w-80 sm:h-[430px] flex items-center justify-center group">
+            <div className="relative w-72 sm:w-80 aspect-[3/4] flex items-center justify-center group">
               
               {/* Subtle Orbit Rings behind portrait */}
               <div className="absolute w-72 h-72 rounded-full border border-blue-400/15 about-orbit-ring pointer-events-none">
@@ -52,70 +79,140 @@ export default function AboutSection() {
                 <span className="absolute bottom-2 right-4 w-1.5 h-1.5 rounded-full bg-red-500 shadow-[0_0_10px_#ef4444]"></span>
               </div>
 
-              {/* Ambient Backlight (transitions from Cosmic Blue to Spider-Man Red on hover!) */}
-              <div className="absolute inset-8 rounded-full bg-blue-600/15 group-hover:bg-red-600/30 blur-3xl transition-all duration-500 pointer-events-none"></div>
-
-              {/* Clean Cutout Portrait (no garden/house background, blends seamlessly into #050510) */}
+              {/* Ambient Backlight */}
               <div
-                className="relative w-full h-full flex items-end justify-center overflow-hidden"
+                className={`absolute inset-8 rounded-full blur-3xl transition-all duration-500 pointer-events-none ${
+                  cursor.active ? 'bg-red-600/25' : 'bg-blue-600/15'
+                }`}
+              ></div>
+
+              {/* 3:4 Portrait Box matching image aspect ratio 1:1 */}
+              <div
+                ref={portraitRef}
+                onMouseMove={handleMouseMove}
+                onMouseLeave={handleMouseLeave}
+                className="relative w-full h-full overflow-hidden cursor-none"
                 style={{
-                  maskImage: 'linear-gradient(to bottom, black 78%, transparent 100%)',
-                  WebkitMaskImage: 'linear-gradient(to bottom, black 78%, transparent 100%)',
+                  maskImage: 'linear-gradient(to bottom, black 82%, transparent 100%)',
+                  WebkitMaskImage: 'linear-gradient(to bottom, black 82%, transparent 100%)',
                 }}
               >
+                {/* Base Clean Photo (no garden/house background) */}
                 <img
                   src="/about-rafid-clean.jpg"
                   alt="Rafid Muzakki Putra Andryan"
-                  className="w-full h-full object-contain object-bottom mix-blend-lighten transition-transform duration-500 group-hover:scale-[1.03]"
+                  className="w-full h-full object-cover mix-blend-lighten select-none pointer-events-none"
                 />
 
-                {/* Spider-Man Suit Hover Reveal Overlay over torso & collar */}
+                {/* Cursor Spotlight Reveal Layer: Spider-Man Mask (Head) + Suit (Torso) */}
                 <div
-                  className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none mix-blend-screen"
+                  className="absolute inset-0 pointer-events-none transition-opacity duration-150"
                   style={{
-                    maskImage: 'radial-gradient(ellipse 46% 38% at 32% 66%, black 30%, transparent 78%)',
-                    WebkitMaskImage: 'radial-gradient(ellipse 46% 38% at 32% 66%, black 30%, transparent 78%)',
+                    ...maskStyle,
+                    opacity: cursor.active ? 1 : 0,
                   }}
                 >
-                  {/* Red Suit Glow */}
-                  <div
-                    className="absolute inset-0"
-                    style={{
-                      background:
-                        'radial-gradient(circle at 32% 66%, rgba(220, 38, 38, 0.85), rgba(153, 27, 27, 0.55) 45%, transparent 75%)',
-                    }}
-                  ></div>
+                  <svg viewBox="0 0 300 400" className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                      {/* Realistic 3D Spider-Man Red Shading */}
+                      <radialGradient id="spideyHeadGrad" cx="62%" cy="42%" r="58%">
+                        <stop offset="0%" stopColor="#ef4444" />
+                        <stop offset="55%" stopColor="#b91c1c" />
+                        <stop offset="100%" stopColor="#450a0a" />
+                      </radialGradient>
+                      <radialGradient id="spideySuitGrad" cx="45%" cy="35%" r="65%">
+                        <stop offset="0%" stopColor="#dc2626" />
+                        <stop offset="60%" stopColor="#991b1b" />
+                        <stop offset="100%" stopColor="#3b0712" />
+                      </radialGradient>
+                      {/* Clip path matching Rafid's exact head & neck silhouette */}
+                      <clipPath id="headMaskClip">
+                        <path d="M 105 182 C 92 162, 92 128, 125 122 C 155 117, 178 140, 177 168 C 176 184, 166 196, 152 204 C 138 212, 118 220, 108 210 Z" />
+                      </clipPath>
+                      {/* Clip path matching Rafid's torso & shirt */}
+                      <clipPath id="torsoSuitClip">
+                        <path d="M 0 218 C 35 198, 72 195, 108 210 C 122 238, 128 282, 134 328 L 106 365 L 105 400 L 0 400 Z" />
+                      </clipPath>
+                    </defs>
 
-                  {/* Spider-Man Web Pattern & Emblem SVG */}
-                  <svg
-                    viewBox="0 0 200 260"
-                    className="absolute inset-0 w-full h-full opacity-85"
-                    fill="none"
-                  >
-                    <g stroke="#09090b" strokeWidth="1.6" strokeOpacity="0.85">
-                      {/* Radial web lines centered on chest (x=64, y=172) */}
-                      <line x1="64" y1="172" x2="20" y2="115" />
-                      <line x1="64" y1="172" x2="64" y2="105" />
-                      <line x1="64" y1="172" x2="115" y2="120" />
-                      <line x1="64" y1="172" x2="125" y2="172" />
-                      <line x1="64" y1="172" x2="112" y2="225" />
-                      <line x1="64" y1="172" x2="64" y2="240" />
-                      <line x1="64" y1="172" x2="18" y2="220" />
-                      <line x1="64" y1="172" x2="8" y2="172" />
-                      {/* Concentric web rings */}
-                      <circle cx="64" cy="172" r="18" />
-                      <circle cx="64" cy="172" r="34" />
-                      <circle cx="64" cy="172" r="50" />
+                    {/* 1. SPIDER-MAN SUIT ON TORSO / COLLAR */}
+                    <g clipPath="url(#torsoSuitClip)">
+                      <rect x="0" y="190" width="160" height="220" fill="url(#spideySuitGrad)" />
+                      {/* Black Webbing across Chest & Shoulders */}
+                      <g stroke="#09090b" strokeWidth="1.6" strokeOpacity="0.82" fill="none">
+                        {/* Radiating lines from chest center (68, 285) */}
+                        <line x1="68" y1="285" x2="10" y2="210" />
+                        <line x1="68" y1="285" x2="55" y2="195" />
+                        <line x1="68" y1="285" x2="105" y2="205" />
+                        <line x1="68" y1="285" x2="138" y2="255" />
+                        <line x1="68" y1="285" x2="135" y2="335" />
+                        <line x1="68" y1="285" x2="95" y2="400" />
+                        <line x1="68" y1="285" x2="40" y2="400" />
+                        <line x1="68" y1="285" x2="0" y2="345" />
+                        <line x1="68" y1="285" x2="0" y2="280" />
+                        {/* Concentric curved webs */}
+                        <circle cx="68" cy="285" r="22" />
+                        <circle cx="68" cy="285" r="44" />
+                        <circle cx="68" cy="285" r="68" />
+                        <circle cx="68" cy="285" r="95" />
+                      </g>
+                      {/* Iconic Black Spider Chest Emblem */}
+                      <g fill="#050507" transform="translate(74, 285) rotate(8)">
+                        <ellipse cx="0" cy="2" rx="4.5" ry="7.5" />
+                        <circle cx="0" cy="-7" r="3" />
+                        <path
+                          d="M-4 -3 Q-14 -14 -17 -23 M-4 -1 Q-16 -5 -22 -12 M-4 2 Q-16 6 -21 15 M-3 5 Q-12 16 -14 25"
+                          stroke="#050507"
+                          strokeWidth="2.4"
+                          strokeLinecap="round"
+                        />
+                        <path
+                          d="M4 -3 Q14 -14 17 -23 M4 -1 Q16 -5 22 -12 M4 2 Q16 6 21 15 M3 5 Q12 16 14 25"
+                          stroke="#050507"
+                          strokeWidth="2.4"
+                          strokeLinecap="round"
+                        />
+                      </g>
                     </g>
-                    {/* Black Spider Chest Emblem */}
-                    <g fill="#050507" transform="translate(64, 172)">
-                      <ellipse cx="0" cy="2" rx="4.5" ry="7" />
-                      <circle cx="0" cy="-7" r="3" />
-                      <path d="M-4 -3 Q-14 -14 -17 -22 M-4 -1 Q-16 -5 -21 -12 M-4 2 Q-16 6 -20 15 M-3 5 Q-12 16 -14 25" stroke="#050507" strokeWidth="2.4" strokeLinecap="round" />
-                      <path d="M4 -3 Q14 -14 17 -22 M4 -1 Q16 -5 21 -12 M4 2 Q16 6 20 15 M3 5 Q12 16 14 25" stroke="#050507" strokeWidth="2.4" strokeLinecap="round" />
+
+                    {/* 2. SPIDER-MAN MASK ON HEAD / FACE (Side-profile facing down-right) */}
+                    <g clipPath="url(#headMaskClip)">
+                      <rect x="85" y="115" width="100" height="110" fill="url(#spideyHeadGrad)" />
+                      {/* Web lines radiating from nose bridge (160, 168) */}
+                      <g stroke="#09090b" strokeWidth="1.35" strokeOpacity="0.8" fill="none">
+                        <line x1="160" y1="168" x2="105" y2="122" />
+                        <line x1="160" y1="168" x2="145" y2="115" />
+                        <line x1="160" y1="168" x2="180" y2="132" />
+                        <line x1="160" y1="168" x2="185" y2="168" />
+                        <line x1="160" y1="168" x2="172" y2="205" />
+                        <line x1="160" y1="168" x2="132" y2="215" />
+                        <line x1="160" y1="168" x2="95" y2="195" />
+                        <line x1="160" y1="168" x2="90" y2="158" />
+                        <circle cx="160" cy="168" r="14" />
+                        <circle cx="160" cy="168" r="28" />
+                        <circle cx="160" cy="168" r="44" />
+                        <circle cx="160" cy="168" r="62" />
+                      </g>
+
+                      {/* Side-Profile White Spider-Man Eye Lens */}
+                      <path
+                        d="M 149 156 C 156 149, 169 152, 173 159 C 169 167, 156 168, 149 156 Z"
+                        fill="#f8fafc"
+                        stroke="#09090b"
+                        strokeWidth="3.2"
+                        strokeLinejoin="round"
+                      />
                     </g>
                   </svg>
                 </div>
+
+                {/* Cyan Cursor Dot Indicator (like Alfari's screenshot!) */}
+                {cursor.active && (
+                  <span
+                    className="absolute w-2.5 h-2.5 -ml-1.25 -mt-1.25 rounded-full bg-cyan-400 shadow-[0_0_12px_#22d3ee] pointer-events-none"
+                    style={{ left: `${cursor.x}%`, top: `${cursor.y}%` }}
+                  ></span>
+                )}
               </div>
             </div>
           </div>
