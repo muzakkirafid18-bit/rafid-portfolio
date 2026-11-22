@@ -101,7 +101,7 @@ export default function AboutSection() {
                 <svg viewBox="0 0 300 400" className="w-full h-full select-none pointer-events-none" xmlns="http://www.w3.org/2000/svg">
                   <defs>
                     <clipPath id="rafidSubjectClip">
-                      <path d="M 116 34 C 142 36, 157 56, 157 86 C 166 94, 166 116, 156 128 C 158 136, 165 146, 178 152 C 220 162, 246 194, 260 250 L 266 294 L 258 300 C 268 338, 274 374, 271 400 L 89 400 C 96 368, 105 332, 106 322 C 95 304, 76 287, 76 283 C 85 246, 102 204, 114 176 C 102 178, 88 168, 82 155 L 75 147 C 70 135, 67 122, 65 108 C 61 94, 60 84, 62 74 C 66 48, 90 34, 116 34 Z" />
+                      <path d="M 116 34 C 142 36, 157 56, 157 86 C 166 94, 166 116, 156 128 C 158 136, 165 146, 178 152 C 220 162, 246 194, 260 250 L 266 294 L 261 298 C 268 336, 274 374, 271 400 L 89 400 C 96 368, 105 332, 106 322 C 101 304, 86 292, 76 283 C 85 246, 102 204, 114 176 C 102 178, 88 168, 82 155 L 75 147 C 70 135, 67 122, 65 108 C 61 94, 60 84, 62 74 C 66 48, 90 34, 116 34 Z" />
                     </clipPath>
                   </defs>
                   <image
@@ -145,13 +145,9 @@ export default function AboutSection() {
                       </clipPath>
                     </defs>
 
-                    {/* 1. FULL SPIDER-MAN SUIT (Neck, Chest, Shoulders & Arms — zero gaps!) */}
+                    {/* 1. FULL SPIDER-MAN SUIT (Smooth Red Webbed Suit across Neck, Chest, & Arms) */}
                     <g clipPath="url(#rafidSubjectClip)" style={{ mixBlendMode: 'multiply' }}>
-                      {/* Base Spider-Man Suit: Red torso/neck/shoulders + Classic Blue lower sleeves/sides */}
                       <rect x="60" y="130" width="220" height="275" fill="url(#spideySuitGrad)" />
-                      {/* Classic Spider-Man Blue side/forearm panels */}
-                      <path d="M 222 296 L 266 290 C 272 332, 275 370, 272 400 L 220 400 Z" fill="#1e3a8a" opacity="0.92" />
-                      <path d="M 88 300 L 116 322 L 104 400 L 84 400 Z" fill="#1e3a8a" opacity="0.88" />
 
                       {/* Continuous Webbing across Neck, Chest & Shoulders */}
                       <g stroke="#09090b" strokeWidth="1.6" strokeOpacity="0.85" fill="none">
