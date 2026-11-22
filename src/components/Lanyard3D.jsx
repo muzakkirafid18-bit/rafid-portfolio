@@ -378,9 +378,6 @@ export default function Lanyard3D() {
 
     let dragging = false;
     let dragTarget = new THREE.Vector3();
-    let prevPointerX = 0;
-    let rotY = 0;
-    let rotYVel = 0;
 
     const updatePointerNDC = (clientX, clientY) => {
       const rect = renderer.domElement.getBoundingClientRect();
@@ -404,7 +401,6 @@ export default function Lanyard3D() {
       if (hits.length > 0) {
         e.preventDefault();
         dragging = true;
-        prevPointerX = clientX;
         document.body.style.cursor = 'grabbing';
         document.body.style.userSelect = 'none';
         if (raycaster.ray.intersectPlane(dragPlane, intersectPoint)) {
@@ -430,10 +426,6 @@ export default function Lanyard3D() {
       if (raycaster.ray.intersectPlane(dragPlane, intersectPoint)) {
         dragTarget.copy(intersectPoint).add(dragOffset);
       }
-
-      const dx = clientX - prevPointerX;
-      rotYVel = THREE.MathUtils.clamp(dx * 0.014, -0.32, 0.32);
-      prevPointerX = clientX;
     };
 
     const onPointerUp = () => {
@@ -533,19 +525,15 @@ export default function Lanyard3D() {
       );
       cardGroup.rotation.x = THREE.MathUtils.lerp(
         cardGroup.rotation.x,
-        THREE.MathUtils.clamp(ropeDir.z * 0.6, -0.45, 0.45),
+        THREE.MathUtils.clamp(ropeDir.z * 0.4, -0.25, 0.25),
         0.25
       );
-
-      if (dragging) {
-        rotY += rotYVel;
-        rotYVel *= 0.9;
-      } else {
-        rotY += rotYVel;
-        rotYVel *= 0.94;
-        rotY = THREE.MathUtils.lerp(rotY, Math.sin(t * 0.75) * 0.22, 0.03);
-      }
-      cardGroup.rotation.y = rotY;
+      // Keep card facing forward when dragged (no spinning on Y-axis)
+      cardGroup.rotation.y = THREE.MathUtils.lerp(
+        cardGroup.rotation.y,
+        dragging ? 0 : Math.sin(t * 0.75) * 0.08,
+        0.12
+      );
 
       updateStrapMesh();
       renderer.render(scene, camera);
