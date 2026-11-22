@@ -5,6 +5,7 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [audioEnabled, setAudioEnabled] = useState(false);
+  const [activeSection, setActiveSection] = useState('Home');
 
   const audioCtxRef = useRef(null);
   const masterGainRef = useRef(null);
@@ -13,6 +14,16 @@ export default function Navbar() {
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 30);
+
+      const sections = ['Home', 'About', 'Portofolio', 'Contact'];
+      const scrollPos = window.scrollY + 180;
+      for (let i = sections.length - 1; i >= 0; i--) {
+        const el = document.getElementById(sections[i]);
+        if (el && el.offsetTop <= scrollPos) {
+          setActiveSection(sections[i]);
+          break;
+        }
+      }
     };
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
@@ -110,67 +121,74 @@ export default function Navbar() {
   }, []);
 
   const navLinks = [
-    { name: 'Home', href: '#Home' },
-    { name: 'About', href: '#About' },
-    { name: 'Portfolio', href: '#Portofolio' },
-    { name: 'Contact', href: '#Contact' },
+    { name: 'Home', id: 'Home', href: '#Home' },
+    { name: 'About', id: 'About', href: '#About' },
+    { name: 'Portfolio', id: 'Portofolio', href: '#Portofolio' },
+    { name: 'Contact', id: 'Contact', href: '#Contact' },
   ];
 
   return (
     <header className="fixed top-4 left-0 right-0 z-50 px-4 pointer-events-none">
-      <div className="max-w-3xl mx-auto flex flex-col items-center">
-        {/* Floating Liquid Glass Capsule (alfari.my.id style) */}
+      <div className="max-w-xl mx-auto flex flex-col items-center">
+        {/* Floating Liquid Glass Capsule (persis alfari.my.id) */}
         <div
-          className={`pointer-events-auto w-full sm:w-auto liquid-glass-nav rounded-full px-5 sm:px-7 py-2.5 flex items-center justify-between gap-6 sm:gap-10 transition-all duration-300 ${
-            scrolled ? 'scale-[0.98] shadow-[0_12px_40px_rgba(37,99,235,0.22)]' : ''
+          className={`pointer-events-auto w-full sm:w-auto liquid-glass-nav rounded-full px-3 sm:px-4 py-2 flex items-center justify-between gap-2 sm:gap-3 transition-all duration-300 ${
+            scrolled ? 'shadow-[0_12px_40px_rgba(37,99,235,0.22)]' : ''
           }`}
         >
-          {/* Left Brand */}
+          {/* Mobile Brand */}
           <a
             href="#Home"
-            className="font-display font-bold text-base tracking-tight text-white hover:text-blue-400 transition-colors shrink-0"
+            className="md:hidden font-display font-bold text-sm tracking-tight text-white pl-2"
           >
             Rafid<span className="text-blue-400">Dev.</span>
           </a>
 
-          {/* Center Nav Links */}
-          <nav className="hidden md:flex items-center gap-7 text-xs sm:text-sm font-medium">
-            {navLinks.map((link) => (
-              <a
-                key={link.name}
-                href={link.href}
-                className="text-slate-300 hover:text-white transition-colors relative py-1 after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[2px] after:bg-gradient-to-r after:from-blue-400 after:to-indigo-400 hover:after:w-full after:transition-all after:duration-200"
-              >
-                {link.name}
-              </a>
-            ))}
+          {/* Desktop 4 Nav Links with Active Pill */}
+          <nav className="hidden md:flex items-center gap-1 text-xs sm:text-sm font-medium">
+            {navLinks.map((link) => {
+              const isActive = activeSection === link.id;
+              return (
+                <a
+                  key={link.name}
+                  href={link.href}
+                  onClick={() => setActiveSection(link.id)}
+                  className={`px-4 py-1.5 rounded-full transition-all duration-200 ${
+                    isActive
+                      ? 'bg-white/12 text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.18)]'
+                      : 'text-slate-300 hover:text-white hover:bg-white/5'
+                  }`}
+                >
+                  {link.name}
+                </a>
+              );
+            })}
           </nav>
 
-          {/* Right Audio Toggle + Mobile Menu */}
+          {/* Divider + Circular Audio Button */}
           <div className="flex items-center gap-2 shrink-0">
+            <div className="hidden md:block w-[1px] h-5 bg-white/15 mx-1"></div>
+
             <button
               onClick={toggleAudio}
-              className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border text-xs font-medium transition-all ${
+              className={`w-8 h-8 rounded-full border flex items-center justify-center transition-all ${
                 audioEnabled
-                  ? 'bg-blue-600/25 border-blue-400/50 text-blue-200 shadow-[0_0_15px_rgba(59,130,246,0.3)]'
-                  : 'bg-white/5 border-white/10 text-slate-300 hover:text-white hover:bg-white/10'
+                  ? 'bg-blue-600/30 border-blue-400/60 text-blue-200 shadow-[0_0_15px_rgba(59,130,246,0.4)]'
+                  : 'bg-white/5 border-white/15 text-slate-300 hover:text-white hover:bg-white/10'
               }`}
               title={audioEnabled ? 'Matikan suara' : 'Nyalakan suara'}
               aria-label={audioEnabled ? 'Matikan suara' : 'Nyalakan suara'}
             >
               {audioEnabled ? (
-                <Volume2 className="w-3.5 h-3.5 text-blue-400 animate-pulse" />
+                <Volume2 className="w-3.5 h-3.5 text-blue-300 animate-pulse" />
               ) : (
                 <VolumeX className="w-3.5 h-3.5 text-slate-400" />
               )}
-              <span className="hidden sm:inline">
-                {audioEnabled ? 'Matikan suara' : 'Nyalakan suara'}
-              </span>
             </button>
 
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="md:hidden p-1.5 rounded-full bg-white/5 border border-white/10 text-slate-200 hover:text-blue-400 transition-colors"
+              className="md:hidden w-8 h-8 rounded-full bg-white/5 border border-white/15 flex items-center justify-center text-slate-200 hover:text-blue-400 transition-colors"
               aria-label="Toggle navigation menu"
             >
               {mobileMenuOpen ? <X className="w-4 h-4" /> : <Menu className="w-4 h-4" />}
@@ -180,13 +198,20 @@ export default function Navbar() {
 
         {/* Mobile Dropdown Drawer */}
         {mobileMenuOpen && (
-          <div className="pointer-events-auto md:hidden mt-2 w-full liquid-glass-nav rounded-2xl p-4 space-y-2 animate-in fade-in">
+          <div className="pointer-events-auto md:hidden mt-2 w-full liquid-glass-nav rounded-2xl p-3 space-y-1 animate-in fade-in">
             {navLinks.map((link) => (
               <a
                 key={link.name}
                 href={link.href}
-                onClick={() => setMobileMenuOpen(false)}
-                className="block px-3 py-2 rounded-xl text-sm font-medium text-slate-300 hover:text-white hover:bg-white/5 transition-colors"
+                onClick={() => {
+                  setActiveSection(link.id);
+                  setMobileMenuOpen(false);
+                }}
+                className={`block px-4 py-2 rounded-xl text-sm font-medium transition-colors ${
+                  activeSection === link.id
+                    ? 'bg-white/10 text-white'
+                    : 'text-slate-300 hover:text-white hover:bg-white/5'
+                }`}
               >
                 {link.name}
               </a>
