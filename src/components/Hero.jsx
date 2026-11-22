@@ -38,10 +38,10 @@ export default function Hero() {
 
   return (
     <section id="Home" className="relative pt-28 pb-16 sm:pt-36 sm:pb-24 overflow-visible min-h-[680px]">
-      {/* Full-Hero Top-Layer 3D Lanyard Overlay (never clipped when dragged!) */}
+      {/* Full-Hero 3D Lanyard Layer (sits behind text z-20 so text is never covered, never clipped!) */}
       <Lanyard3D />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-20 pointer-events-none">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center">
           
           {/* Left Column: Cosmic Intro & CTA */}
@@ -76,7 +76,7 @@ export default function Hero() {
             </p>
 
             {/* Primary & Secondary CTAs */}
-            <div className="flex flex-wrap items-center gap-3 pt-2">
+            <div className="flex flex-wrap items-center gap-3 pt-2 pointer-events-auto">
               <a
                 href="#Portofolio"
                 className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-semibold text-xs sm:text-sm shadow-[0_0_30px_rgba(37,99,235,0.45)] hover:shadow-[0_0_40px_rgba(59,130,246,0.65)] transition-all hover:-translate-y-0.5"
@@ -103,7 +103,7 @@ export default function Hero() {
             </div>
 
             {/* FIND ME Row */}
-            <div className="pt-4 flex items-center gap-4">
+            <div className="pt-4 flex items-center gap-4 pointer-events-auto w-fit">
               <span className="text-[11px] font-mono uppercase tracking-widest text-slate-500">
                 Find Me
               </span>

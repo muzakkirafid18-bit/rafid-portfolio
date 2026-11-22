@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { Menu, X, Volume2, VolumeX, FileDown } from 'lucide-react';
+import { Menu, X, Volume2, VolumeX } from 'lucide-react';
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
@@ -47,7 +47,6 @@ export default function Navbar() {
           master.gain.linearRampToValueAtTime(0.24, ctx.currentTime + 0.6);
           master.connect(ctx.destination);
 
-          // Warm audible cosmic pad (C4, G4, B4, D5)
           const freqs = [130.81, 196.0, 246.94, 293.66];
           freqs.forEach((f, idx) => {
             const osc = ctx.createOscillator();
@@ -67,10 +66,8 @@ export default function Navbar() {
             osc.start();
           });
 
-          // Immediate confirmation chime so user hears it right away
           playCosmicChime(ctx, master, 523.25);
 
-          // Gentle periodic cosmic notes
           const notes = [523.25, 659.25, 587.33, 493.88, 783.99];
           let noteIdx = 0;
           chimeIntervalRef.current = setInterval(() => {
@@ -116,29 +113,28 @@ export default function Navbar() {
     { name: 'Home', href: '#Home' },
     { name: 'About', href: '#About' },
     { name: 'Portfolio', href: '#Portofolio' },
-    { name: 'API Console', href: '#api-playground' },
     { name: 'Contact', href: '#Contact' },
   ];
 
   return (
     <header className="fixed top-4 left-0 right-0 z-50 px-4 pointer-events-none">
-      <div className="max-w-5xl mx-auto flex flex-col items-center">
-        {/* Floating Liquid Glass Pill */}
+      <div className="max-w-3xl mx-auto flex flex-col items-center">
+        {/* Floating Liquid Glass Capsule (alfari.my.id style) */}
         <div
-          className={`pointer-events-auto w-full sm:w-auto liquid-glass-nav rounded-full px-5 sm:px-7 py-2.5 flex items-center justify-between gap-4 sm:gap-8 transition-all duration-300 ${
+          className={`pointer-events-auto w-full sm:w-auto liquid-glass-nav rounded-full px-5 sm:px-7 py-2.5 flex items-center justify-between gap-6 sm:gap-10 transition-all duration-300 ${
             scrolled ? 'scale-[0.98] shadow-[0_12px_40px_rgba(37,99,235,0.22)]' : ''
           }`}
         >
-          {/* Clean Brand Text (No AI Slop Icon) */}
+          {/* Left Brand */}
           <a
             href="#Home"
-            className="font-display font-bold text-base sm:text-lg tracking-tight text-white hover:text-blue-400 transition-colors shrink-0"
+            className="font-display font-bold text-base tracking-tight text-white hover:text-blue-400 transition-colors shrink-0"
           >
             Rafid<span className="text-blue-400">Dev.</span>
           </a>
 
-          {/* Desktop Links */}
-          <nav className="hidden md:flex items-center gap-6 text-xs sm:text-sm font-medium">
+          {/* Center Nav Links */}
+          <nav className="hidden md:flex items-center gap-7 text-xs sm:text-sm font-medium">
             {navLinks.map((link) => (
               <a
                 key={link.name}
@@ -150,23 +146,13 @@ export default function Navbar() {
             ))}
           </nav>
 
-          {/* Right Controls: CV + Audio Toggle + Mobile Menu */}
+          {/* Right Audio Toggle + Mobile Menu */}
           <div className="flex items-center gap-2 shrink-0">
-            <a
-              href="/CV_Rafid_Muzakki_Putra_Andryan.pdf"
-              download="CV_Rafid_Muzakki_Putra_Andryan.pdf"
-              className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-blue-600/20 hover:bg-blue-600/35 border border-blue-400/35 text-blue-300 hover:text-white text-xs font-mono font-medium transition-all"
-              title="Unduh CV Resmi (PDF)"
-            >
-              <FileDown className="w-3.5 h-3.5" />
-              <span>CV</span>
-            </a>
-
             <button
               onClick={toggleAudio}
               className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border text-xs font-medium transition-all ${
                 audioEnabled
-                  ? 'bg-blue-600/30 border-blue-400/50 text-blue-200 shadow-[0_0_15px_rgba(59,130,246,0.3)]'
+                  ? 'bg-blue-600/25 border-blue-400/50 text-blue-200 shadow-[0_0_15px_rgba(59,130,246,0.3)]'
                   : 'bg-white/5 border-white/10 text-slate-300 hover:text-white hover:bg-white/10'
               }`}
               title={audioEnabled ? 'Matikan suara' : 'Nyalakan suara'}
@@ -177,7 +163,7 @@ export default function Navbar() {
               ) : (
                 <VolumeX className="w-3.5 h-3.5 text-slate-400" />
               )}
-              <span className="hidden lg:inline">
+              <span className="hidden sm:inline">
                 {audioEnabled ? 'Matikan suara' : 'Nyalakan suara'}
               </span>
             </button>
@@ -205,15 +191,6 @@ export default function Navbar() {
                 {link.name}
               </a>
             ))}
-            <a
-              href="/CV_Rafid_Muzakki_Putra_Andryan.pdf"
-              download="CV_Rafid_Muzakki_Putra_Andryan.pdf"
-              onClick={() => setMobileMenuOpen(false)}
-              className="flex items-center gap-2 px-3 py-2 rounded-xl text-sm font-mono text-blue-300 hover:bg-blue-600/20 transition-colors"
-            >
-              <FileDown className="w-4 h-4" />
-              <span>Unduh CV (PDF)</span>
-            </a>
           </div>
         )}
       </div>

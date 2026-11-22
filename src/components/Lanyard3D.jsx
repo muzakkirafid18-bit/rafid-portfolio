@@ -303,6 +303,13 @@ export default function Lanyard3D() {
     cardMesh.position.set(0, -1.9, 0);
     cardGroup.add(cardMesh);
 
+    // Generous invisible hitbox so grabbing never misses or drops while swinging
+    const hitGeo = new THREE.BoxGeometry(3.1, 4.2, 0.6);
+    const hitMat = new THREE.MeshBasicMaterial({ transparent: true, opacity: 0, depthWrite: false });
+    const hitMesh = new THREE.Mesh(hitGeo, hitMat);
+    hitMesh.position.set(0, -1.9, 0);
+    cardGroup.add(hitMesh);
+
     const clipGeo = new THREE.CylinderGeometry(0.09, 0.09, 0.5, 16);
     const clipMat = new THREE.MeshStandardMaterial({ color: 0x94a3b8, metalness: 0.85, roughness: 0.2 });
     const clipMesh = new THREE.Mesh(clipGeo, clipMat);
@@ -382,17 +389,24 @@ export default function Lanyard3D() {
     };
 
     const onPointerDown = (e) => {
+      // Ignore clicks on actual interactive buttons/links/inputs
+      if (e.target && e.target.closest && e.target.closest('a, button, input, textarea, select')) {
+        return;
+      }
+
       const clientX = e.touches ? e.touches[0].clientX : e.clientX;
       const clientY = e.touches ? e.touches[0].clientY : e.clientY;
       updatePointerNDC(clientX, clientY);
 
       raycaster.setFromCamera(pointerNDC, camera);
-      const hits = raycaster.intersectObject(cardMesh, false);
+      const hits = raycaster.intersectObject(cardGroup, true);
 
       if (hits.length > 0) {
+        e.preventDefault();
         dragging = true;
         prevPointerX = clientX;
         document.body.style.cursor = 'grabbing';
+        document.body.style.userSelect = 'none';
         if (raycaster.ray.intersectPlane(dragPlane, intersectPoint)) {
           const endNode = nodes[numNodes - 1].pos;
           dragOffset.copy(endNode).sub(intersectPoint);
@@ -408,7 +422,7 @@ export default function Lanyard3D() {
       raycaster.setFromCamera(pointerNDC, camera);
 
       if (!dragging) {
-        const hits = raycaster.intersectObject(cardMesh, false);
+        const hits = raycaster.intersectObject(cardGroup, true);
         document.body.style.cursor = hits.length > 0 ? 'grab' : '';
         return;
       }
@@ -426,13 +440,14 @@ export default function Lanyard3D() {
       if (dragging) {
         dragging = false;
         document.body.style.cursor = '';
+        document.body.style.userSelect = '';
       }
     };
 
-    window.addEventListener('pointerdown', onPointerDown);
+    window.addEventListener('pointerdown', onPointerDown, { passive: false });
     window.addEventListener('pointermove', onPointerMove);
     window.addEventListener('pointerup', onPointerUp);
-    window.addEventListener('pointercancel', onPointerUp);
+    window.addEventListener('blur', onPointerUp);
 
     const handleResize = () => {
       if (!container) return;
@@ -542,13 +557,15 @@ export default function Lanyard3D() {
     return () => {
       cancelAnimationFrame(frameId);
       document.body.style.cursor = '';
+      document.body.style.userSelect = '';
       window.removeEventListener('pointerdown', onPointerDown);
       window.removeEventListener('pointermove', onPointerMove);
       window.removeEventListener('pointerup', onPointerUp);
-      window.removeEventListener('pointercancel', onPointerUp);
+      window.removeEventListener('blur', onPointerUp);
       window.removeEventListener('resize', handleResize);
       if (strapMesh) strapMesh.geometry.dispose();
       cardGeo.dispose();
+      hitGeo.dispose();
       renderer.dispose();
       if (container.contains(renderer.domElement)) {
         container.removeChild(renderer.domElement);
@@ -559,7 +576,7 @@ export default function Lanyard3D() {
   return (
     <div
       ref={mountRef}
-      className="absolute inset-0 z-[60] pointer-events-none select-none overflow-visible"
+      className="absolute inset-0 z-10 pointer-events-none select-none overflow-visible"
     />
   );
 }
