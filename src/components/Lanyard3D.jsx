@@ -7,150 +7,117 @@ function createCardFrontTexture(photoImg) {
   canvas.height = 740;
   const ctx = canvas.getContext('2d');
 
-  // Deep cosmic card background
-  const bgGrad = ctx.createLinearGradient(0, 0, 512, 740);
-  bgGrad.addColorStop(0, '#0b1128');
-  bgGrad.addColorStop(0.5, '#070a1c');
-  bgGrad.addColorStop(1, '#0d1533');
+  // Sleek dark matte card background (alfari.my.id style)
+  const bgGrad = ctx.createLinearGradient(0, 0, 0, 740);
+  bgGrad.addColorStop(0, '#11131d');
+  bgGrad.addColorStop(0.55, '#090a10');
+  bgGrad.addColorStop(1, '#0d101b');
   ctx.fillStyle = bgGrad;
   ctx.fillRect(0, 0, 512, 740);
 
-  // Subtle grid lines
-  ctx.strokeStyle = 'rgba(59, 130, 246, 0.08)';
-  ctx.lineWidth = 1;
-  for (let x = 0; x < 512; x += 32) {
-    ctx.beginPath();
-    ctx.moveTo(x, 0);
-    ctx.lineTo(x, 740);
-    ctx.stroke();
-  }
-  for (let y = 0; y < 740; y += 32) {
-    ctx.beginPath();
-    ctx.moveTo(0, y);
-    ctx.lineTo(512, y);
-    ctx.stroke();
-  }
-
-  // Top glow accent bar
-  const topGrad = ctx.createLinearGradient(0, 0, 512, 0);
-  topGrad.addColorStop(0, '#2563eb');
-  topGrad.addColorStop(0.5, '#6366f1');
-  topGrad.addColorStop(1, '#a855f7');
-  ctx.fillStyle = topGrad;
-  ctx.fillRect(0, 0, 512, 14);
+  // Subtle corner glow
+  const radGlow = ctx.createRadialGradient(256, 180, 20, 256, 180, 320);
+  radGlow.addColorStop(0, 'rgba(37, 99, 235, 0.14)');
+  radGlow.addColorStop(1, 'rgba(0, 0, 0, 0)');
+  ctx.fillStyle = radGlow;
+  ctx.fillRect(0, 0, 512, 740);
 
   // Lanyard slot cutout
-  ctx.fillStyle = '#04050e';
+  ctx.fillStyle = '#030408';
   ctx.beginPath();
-  ctx.roundRect(216, 26, 80, 18, 9);
+  ctx.roundRect(210, 26, 92, 18, 9);
   ctx.fill();
-  ctx.strokeStyle = 'rgba(148, 163, 184, 0.35)';
+  ctx.strokeStyle = 'rgba(255, 255, 255, 0.22)';
   ctx.lineWidth = 2;
   ctx.stroke();
 
-  // School & Major Header
+  // Top Role Tag
   ctx.fillStyle = '#60a5fa';
-  ctx.font = 'bold 21px "JetBrains Mono", monospace';
+  ctx.font = 'bold 18px "JetBrains Mono", monospace';
   ctx.textAlign = 'center';
-  ctx.fillText('SMKN 1 CIBINONG', 256, 82);
+  ctx.fillText('BACKEND DEVELOPER', 256, 86);
 
-  ctx.fillStyle = '#94a3b8';
-  ctx.font = '500 15px "JetBrains Mono", monospace';
-  ctx.fillText('PPLG / REKAYASA PERANGKAT LUNAK', 256, 108);
+  // School & Major
+  ctx.fillStyle = '#e2e8f0';
+  ctx.font = 'bold 20px "Space Grotesk", sans-serif';
+  ctx.fillText('SMKN 1 CIBINONG', 256, 118);
 
-  // Photo Frame with glowing ring
-  const centerX = 256;
-  const centerY = 265;
-  const radius = 114;
+  ctx.fillStyle = '#64748b';
+  ctx.font = '600 13px "JetBrains Mono", monospace';
+  ctx.fillText('PPLG / REKAYASA PERANGKAT LUNAK', 256, 142);
 
-  const ringGrad = ctx.createLinearGradient(centerX - radius, centerY - radius, centerX + radius, centerY + radius);
-  ringGrad.addColorStop(0, '#3b82f6');
-  ringGrad.addColorStop(0.5, '#6366f1');
-  ringGrad.addColorStop(1, '#a855f7');
-
-  ctx.beginPath();
-  ctx.arc(centerX, centerY, radius + 7, 0, Math.PI * 2);
-  ctx.fillStyle = ringGrad;
-  ctx.fill();
+  // Rounded-Rectangle Portrait Frame (like alfari.my.id ID card)
+  const frameX = 116;
+  const frameY = 172;
+  const frameW = 280;
+  const frameH = 310;
 
   ctx.save();
   ctx.beginPath();
-  ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
+  ctx.roundRect(frameX, frameY, frameW, frameH, 22);
   ctx.closePath();
   ctx.clip();
 
   if (photoImg) {
-    const scale = Math.max((radius * 2) / photoImg.width, (radius * 2) / photoImg.height);
+    const scale = Math.max(frameW / photoImg.width, frameH / photoImg.height);
     const drawW = photoImg.width * scale;
     const drawH = photoImg.height * scale;
-    ctx.drawImage(photoImg, centerX - drawW / 2, centerY - drawH / 2 + 12, drawW, drawH);
+    ctx.drawImage(photoImg, 256 - drawW / 2, frameY + (frameH - drawH) / 2 + 12, drawW, drawH);
   } else {
-    ctx.fillStyle = '#1e293b';
-    ctx.fillRect(centerX - radius, centerY - radius, radius * 2, radius * 2);
+    ctx.fillStyle = '#161b2e';
+    ctx.fillRect(frameX, frameY, frameW, frameH);
   }
   ctx.restore();
 
-  // Role Pill
-  ctx.fillStyle = 'rgba(37, 99, 235, 0.25)';
+  ctx.strokeStyle = 'rgba(255, 255, 255, 0.16)';
+  ctx.lineWidth = 2.5;
   ctx.beginPath();
-  ctx.roundRect(112, 404, 288, 42, 21);
-  ctx.fill();
-  ctx.strokeStyle = 'rgba(96, 165, 250, 0.65)';
-  ctx.lineWidth = 2;
+  ctx.roundRect(frameX, frameY, frameW, frameH, 22);
   ctx.stroke();
-
-  ctx.fillStyle = '#93c5fd';
-  ctx.font = 'bold 18px "JetBrains Mono", monospace';
-  ctx.fillText('BACKEND DEVELOPER', 256, 431);
 
   // Name
   ctx.fillStyle = '#ffffff';
-  ctx.font = 'bold 38px "Space Grotesk", sans-serif';
-  ctx.fillText('Rafid Muzakki', 256, 495);
+  ctx.font = 'bold 34px "Space Grotesk", sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText('Rafid Muzakki', 256, 536);
 
-  ctx.fillStyle = '#cbd5e1';
-  ctx.font = '600 22px "Space Grotesk", sans-serif';
-  ctx.fillText('Putra Andryan', 256, 528);
+  ctx.fillStyle = '#94a3b8';
+  ctx.font = '500 18px "Inter", sans-serif';
+  ctx.fillText('Putra Andryan', 256, 566);
 
   // Divider
-  ctx.strokeStyle = 'rgba(255, 255, 255, 0.12)';
+  ctx.strokeStyle = 'rgba(255, 255, 255, 0.1)';
   ctx.lineWidth = 1.5;
   ctx.beginPath();
-  ctx.moveTo(48, 560);
-  ctx.lineTo(464, 560);
+  ctx.moveTo(54, 598);
+  ctx.lineTo(458, 598);
   ctx.stroke();
 
-  // Stack footer
-  ctx.fillStyle = '#818cf8';
-  ctx.font = '600 15px "JetBrains Mono", monospace';
-  ctx.fillText('PHP • LARAVEL • MYSQL • POSTGRES', 256, 594);
+  // Bottom Portfolio Tag + Motto
+  ctx.fillStyle = '#60a5fa';
+  ctx.font = 'bold 14px "JetBrains Mono", monospace';
+  ctx.textAlign = 'left';
+  ctx.fillText('PORTFOLIO', 56, 636);
 
-  // Barcode / ID footer
-  ctx.fillStyle = 'rgba(255, 255, 255, 0.04)';
+  ctx.fillStyle = '#94a3b8';
+  ctx.font = 'italic 14px "Inter", sans-serif';
+  ctx.textAlign = 'right';
+  ctx.fillText("Don't repeat yourself", 456, 636);
+
+  // Bottom minimal bar
+  ctx.fillStyle = 'rgba(255, 255, 255, 0.05)';
   ctx.beginPath();
-  ctx.roundRect(48, 624, 416, 76, 14);
+  ctx.roundRect(54, 658, 404, 46, 12);
   ctx.fill();
 
-  ctx.fillStyle = '#64748b';
+  ctx.fillStyle = '#cbd5e1';
   ctx.font = '500 13px "JetBrains Mono", monospace';
-  ctx.textAlign = 'left';
-  ctx.fillText('ID: RAFID-DEV-2026', 68, 656);
-  ctx.fillText('LOC: CIBINONG, ID', 68, 680);
+  ctx.textAlign = 'center';
+  ctx.fillText('PHP  •  LARAVEL  •  MYSQL  •  POSTGRES', 256, 686);
 
-  // Mini barcode bars
-  ctx.fillStyle = '#94a3b8';
-  const bars = [4, 2, 6, 2, 4, 8, 2, 4, 2, 6, 4, 2, 4, 6, 2, 4];
-  let bx = 320;
-  bars.forEach((w, idx) => {
-    if (idx % 2 === 0) {
-      ctx.fillRect(bx, 642, w, 40);
-    }
-    bx += w + 3;
-  });
-
-  // Outer border
-  ctx.strokeStyle = 'rgba(96, 165, 250, 0.4)';
-  ctx.lineWidth = 4;
+  // Crisp Card Outer Border
+  ctx.strokeStyle = 'rgba(255, 255, 255, 0.16)';
+  ctx.lineWidth = 3;
   ctx.strokeRect(2, 2, 508, 736);
 
   const texture = new THREE.CanvasTexture(canvas);
@@ -164,55 +131,32 @@ function createCardBackTexture() {
   canvas.height = 740;
   const ctx = canvas.getContext('2d');
 
-  const bgGrad = ctx.createLinearGradient(0, 0, 512, 740);
-  bgGrad.addColorStop(0, '#070a1c');
-  bgGrad.addColorStop(1, '#0e1330');
+  const bgGrad = ctx.createLinearGradient(0, 0, 0, 740);
+  bgGrad.addColorStop(0, '#090a10');
+  bgGrad.addColorStop(1, '#11131d');
   ctx.fillStyle = bgGrad;
   ctx.fillRect(0, 0, 512, 740);
 
-  const topGrad = ctx.createLinearGradient(0, 0, 512, 0);
-  topGrad.addColorStop(0, '#a855f7');
-  topGrad.addColorStop(1, '#2563eb');
-  ctx.fillStyle = topGrad;
-  ctx.fillRect(0, 0, 512, 14);
-
-  ctx.fillStyle = '#04050e';
+  ctx.fillStyle = '#030408';
   ctx.beginPath();
-  ctx.roundRect(216, 26, 80, 18, 9);
+  ctx.roundRect(210, 26, 92, 18, 9);
   ctx.fill();
 
   ctx.textAlign = 'center';
   ctx.fillStyle = '#60a5fa';
-  ctx.font = 'bold 26px "Space Grotesk", sans-serif';
-  ctx.fillText('Rafid Muzakki', 256, 155);
+  ctx.font = 'bold 24px "Space Grotesk", sans-serif';
+  ctx.fillText('Rafid Muzakki', 256, 170);
 
   ctx.fillStyle = '#ffffff';
-  ctx.font = 'bold 44px "Space Grotesk", sans-serif';
-  ctx.fillText('PORTFOLIO', 256, 230);
+  ctx.font = 'bold 42px "Space Grotesk", sans-serif';
+  ctx.fillText('PORTFOLIO', 256, 235);
 
-  ctx.fillStyle = '#a5b4fc';
+  ctx.fillStyle = '#94a3b8';
   ctx.font = 'italic 20px "Inter", sans-serif';
-  ctx.fillText('"Clean Code, Solid Backend"', 256, 285);
+  ctx.fillText("Don't repeat yourself", 256, 285);
 
-  ctx.strokeStyle = 'rgba(99, 102, 241, 0.45)';
+  ctx.strokeStyle = 'rgba(255, 255, 255, 0.14)';
   ctx.lineWidth = 2;
-  ctx.beginPath();
-  ctx.roundRect(86, 355, 340, 180, 20);
-  ctx.stroke();
-
-  ctx.fillStyle = '#cbd5e1';
-  ctx.font = '500 16px "JetBrains Mono", monospace';
-  ctx.fillText('• RESTful API Design', 256, 405);
-  ctx.fillText('• Relational DB (54+ Tables)', 256, 442);
-  ctx.fillText('• Laravel & PHP Native', 256, 479);
-  ctx.fillText('• Neo One Industry Validated', 256, 516);
-
-  ctx.fillStyle = '#60a5fa';
-  ctx.font = '600 16px "JetBrains Mono", monospace';
-  ctx.fillText('rafid-dev-portfolio.vercel.app', 256, 650);
-
-  ctx.strokeStyle = 'rgba(99, 102, 241, 0.4)';
-  ctx.lineWidth = 4;
   ctx.strokeRect(2, 2, 508, 736);
 
   const texture = new THREE.CanvasTexture(canvas);
@@ -220,31 +164,85 @@ function createCardBackTexture() {
   return texture;
 }
 
-function createStrapTexture() {
+function createFlatStrapTexture() {
   const canvas = document.createElement('canvas');
-  canvas.width = 512;
-  canvas.height = 128;
+  canvas.width = 256;
+  canvas.height = 1024;
   const ctx = canvas.getContext('2d');
 
-  ctx.fillStyle = '#0f172a';
-  ctx.fillRect(0, 0, 512, 128);
+  // Sleek dark lanyard fabric
+  ctx.fillStyle = '#0b0e17';
+  ctx.fillRect(0, 0, 256, 1024);
 
-  ctx.fillStyle = '#2563eb';
-  ctx.fillRect(0, 0, 512, 12);
-  ctx.fillRect(0, 116, 512, 12);
+  // Subtle edge stitching
+  ctx.fillStyle = 'rgba(59, 130, 246, 0.55)';
+  ctx.fillRect(10, 0, 4, 1024);
+  ctx.fillRect(242, 0, 4, 1024);
 
+  // Repeating vertical "Rafid Muzakki" text along the flat strap
+  ctx.save();
   ctx.fillStyle = '#f8fafc';
   ctx.font = 'bold 34px "Space Grotesk", sans-serif';
   ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';
-  ctx.fillText('RAFID MUZAKKI  •  RAFID MUZAKKI', 256, 64);
+
+  for (let y = 140; y < 1024; y += 340) {
+    ctx.save();
+    ctx.translate(128, y);
+    ctx.rotate(-Math.PI / 2);
+    ctx.fillText('Rafid Muzakki', 0, 0);
+    ctx.restore();
+  }
+  ctx.restore();
 
   const texture = new THREE.CanvasTexture(canvas);
-  texture.wrapS = THREE.RepeatWrapping;
-  texture.wrapT = THREE.ClampToEdgeWrapping;
-  texture.repeat.set(3, 1);
+  texture.wrapS = THREE.ClampToEdgeWrapping;
+  texture.wrapT = THREE.RepeatWrapping;
+  texture.repeat.set(1, 1.5);
   texture.colorSpace = THREE.SRGBColorSpace;
   return texture;
+}
+
+// Build a clean flat ribbon geometry along a 3D curve (looks like a real flat cloth lanyard!)
+function buildRibbonGeometry(points, halfWidth = 0.19) {
+  const curve = new THREE.CatmullRomCurve3(points);
+  const segments = 28;
+  const sampled = curve.getPoints(segments);
+
+  const positions = [];
+  const uvs = [];
+  const indices = [];
+
+  for (let i = 0; i <= segments; i++) {
+    const p = sampled[i];
+    const tangent =
+      i < segments
+        ? new THREE.Vector3().subVectors(sampled[i + 1], p).normalize()
+        : new THREE.Vector3().subVectors(p, sampled[i - 1]).normalize();
+
+    // Perpendicular vector in XY plane so ribbon always faces camera cleanly
+    const side = new THREE.Vector3(-tangent.y, tangent.x, 0).normalize().multiplyScalar(halfWidth);
+
+    const left = new THREE.Vector3().subVectors(p, side);
+    const right = new THREE.Vector3().addVectors(p, side);
+
+    positions.push(left.x, left.y, left.z, right.x, right.y, right.z);
+
+    const v = i / segments;
+    uvs.push(0, v, 1, v);
+
+    if (i < segments) {
+      const base = i * 2;
+      indices.push(base, base + 1, base + 2, base + 1, base + 3, base + 2);
+    }
+  }
+
+  const geo = new THREE.BufferGeometry();
+  geo.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+  geo.setAttribute('uv', new THREE.Float32BufferAttribute(uvs, 2));
+  geo.setIndex(indices);
+  geo.computeVertexNormals();
+  return geo;
 }
 
 export default function Lanyard3D() {
@@ -271,55 +269,54 @@ export default function Lanyard3D() {
     container.appendChild(renderer.domElement);
 
     // Lighting
-    const ambientLight = new THREE.AmbientLight(0xffffff, 1.55);
+    const ambientLight = new THREE.AmbientLight(0xffffff, 1.65);
     scene.add(ambientLight);
 
-    const keyLight = new THREE.DirectionalLight(0x93c5fd, 1.9);
+    const keyLight = new THREE.DirectionalLight(0x93c5fd, 1.7);
     keyLight.position.set(4, 6, 6);
     scene.add(keyLight);
 
-    const rimLight = new THREE.DirectionalLight(0xa855f7, 1.3);
+    const rimLight = new THREE.DirectionalLight(0xa855f7, 1.0);
     rimLight.position.set(-5, 2, -4);
     scene.add(rimLight);
 
-    // Card Group (Bigger size: 2.55 x 3.65)
+    // Card Group
     const cardGroup = new THREE.Group();
     scene.add(cardGroup);
 
-    const sideMat = new THREE.MeshStandardMaterial({ color: 0x1e293b, roughness: 0.4, metalness: 0.6 });
+    const sideMat = new THREE.MeshStandardMaterial({ color: 0x161925, roughness: 0.4, metalness: 0.5 });
     const frontMat = new THREE.MeshStandardMaterial({
       map: createCardFrontTexture(null),
-      roughness: 0.25,
-      metalness: 0.15,
+      roughness: 0.28,
+      metalness: 0.12,
     });
     const backMat = new THREE.MeshStandardMaterial({
       map: createCardBackTexture(),
-      roughness: 0.25,
-      metalness: 0.15,
+      roughness: 0.28,
+      metalness: 0.12,
     });
 
-    const cardGeo = new THREE.BoxGeometry(2.55, 3.65, 0.07);
+    const cardGeo = new THREE.BoxGeometry(2.55, 3.65, 0.06);
     const cardMesh = new THREE.Mesh(cardGeo, [sideMat, sideMat, sideMat, sideMat, frontMat, backMat]);
     cardMesh.position.set(0, -1.9, 0);
     cardGroup.add(cardMesh);
 
-    // Generous invisible hitbox so grabbing never misses or drops while swinging
     const hitGeo = new THREE.BoxGeometry(3.1, 4.2, 0.6);
     const hitMat = new THREE.MeshBasicMaterial({ transparent: true, opacity: 0, depthWrite: false });
     const hitMesh = new THREE.Mesh(hitGeo, hitMat);
     hitMesh.position.set(0, -1.9, 0);
     cardGroup.add(hitMesh);
 
-    const clipGeo = new THREE.CylinderGeometry(0.09, 0.09, 0.5, 16);
-    const clipMat = new THREE.MeshStandardMaterial({ color: 0x94a3b8, metalness: 0.85, roughness: 0.2 });
-    const clipMesh = new THREE.Mesh(clipGeo, clipMat);
-    clipMesh.rotation.z = Math.PI / 2;
-    clipMesh.position.set(0, -0.04, 0);
-    cardGroup.add(clipMesh);
+    // Metallic flat lanyard clasp
+    const clipMat = new THREE.MeshStandardMaterial({ color: 0x94a3b8, metalness: 0.88, roughness: 0.22 });
+    const claspBoxGeo = new THREE.BoxGeometry(0.42, 0.18, 0.1);
+    const claspMesh = new THREE.Mesh(claspBoxGeo, clipMat);
+    claspMesh.position.set(0, -0.02, 0);
+    cardGroup.add(claspMesh);
 
-    const hookGeo = new THREE.TorusGeometry(0.14, 0.036, 12, 24);
+    const hookGeo = new THREE.TorusGeometry(0.11, 0.03, 12, 24);
     const hookMesh = new THREE.Mesh(hookGeo, clipMat);
-    hookMesh.position.set(0, 0.11, 0);
+    hookMesh.position.set(0, 0.12, 0);
     cardGroup.add(hookMesh);
 
     // Load formal photo
@@ -331,7 +328,6 @@ export default function Lanyard3D() {
       frontMat.needsUpdate = true;
     };
 
-    // Anchor on the right column on desktop, centered lower on mobile
     const computeAnchor = (w, h) => {
       const isDesktop = w >= 1024;
       const aspect = w / h;
@@ -350,9 +346,10 @@ export default function Lanyard3D() {
     });
 
     const strapMat = new THREE.MeshStandardMaterial({
-      map: createStrapTexture(),
-      roughness: 0.65,
-      metalness: 0.1,
+      map: createFlatStrapTexture(),
+      roughness: 0.72,
+      metalness: 0.05,
+      side: THREE.DoubleSide,
     });
     let strapMesh = null;
 
@@ -362,14 +359,11 @@ export default function Lanyard3D() {
         strapMesh.geometry.dispose();
       }
       const points = nodes.map((n) => n.pos.clone());
-      const curve = new THREE.CatmullRomCurve3(points);
-      const tubeGeo = new THREE.TubeGeometry(curve, 28, 0.11, 8, false);
-      strapMesh = new THREE.Mesh(tubeGeo, strapMat);
+      const ribbonGeo = buildRibbonGeometry(points, 0.19);
+      strapMesh = new THREE.Mesh(ribbonGeo, strapMat);
       scene.add(strapMesh);
     };
 
-    // Raycasting on window so clicks pass through when NOT on the card,
-    // and when grabbing the card you can pull it anywhere across the entire Hero!
     const raycaster = new THREE.Raycaster();
     const dragPlane = new THREE.Plane(new THREE.Vector3(0, 0, 1), 0);
     const intersectPoint = new THREE.Vector3();
@@ -386,7 +380,6 @@ export default function Lanyard3D() {
     };
 
     const onPointerDown = (e) => {
-      // Ignore clicks on actual interactive buttons/links/inputs
       if (e.target && e.target.closest && e.target.closest('a, button, input, textarea, select')) {
         return;
       }
@@ -453,7 +446,6 @@ export default function Lanyard3D() {
     };
     window.addEventListener('resize', handleResize);
 
-    // Physics + Render Loop
     let frameId;
     const clock = new THREE.Clock();
 
@@ -528,7 +520,6 @@ export default function Lanyard3D() {
         THREE.MathUtils.clamp(ropeDir.z * 0.4, -0.25, 0.25),
         0.25
       );
-      // Keep card facing forward when dragged (no spinning on Y-axis)
       cardGroup.rotation.y = THREE.MathUtils.lerp(
         cardGroup.rotation.y,
         dragging ? 0 : Math.sin(t * 0.75) * 0.08,
@@ -554,6 +545,7 @@ export default function Lanyard3D() {
       if (strapMesh) strapMesh.geometry.dispose();
       cardGeo.dispose();
       hitGeo.dispose();
+      claspBoxGeo.dispose();
       renderer.dispose();
       if (container.contains(renderer.domElement)) {
         container.removeChild(renderer.domElement);

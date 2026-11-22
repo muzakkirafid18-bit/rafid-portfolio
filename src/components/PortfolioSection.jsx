@@ -9,7 +9,7 @@ import {
   Monitor,
   ExternalLink,
   Database,
-  Code2,
+  Terminal,
   Table,
   GitFork,
   Image as ImageIcon,
@@ -671,7 +671,7 @@ public static void SubmitDonasi(int idProgram, int idDonatur, decimal jumlah, st
                         : 'text-slate-400 hover:text-white'
                     }`}
                   >
-                    <Code2 className="w-3.5 h-3.5" />
+                    <Terminal className="w-3.5 h-3.5" />
                     <span>Arsitektur Kode</span>
                   </button>
                 </div>

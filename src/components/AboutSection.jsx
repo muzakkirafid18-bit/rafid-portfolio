@@ -1,5 +1,5 @@
 import { useState, useRef } from 'react';
-import { Code2, FileText, ArrowUpRight } from 'lucide-react';
+import { FileText, ArrowUpRight } from 'lucide-react';
 
 export default function AboutSection() {
   const portraitRef = useRef(null);
@@ -251,7 +251,6 @@ export default function AboutSection() {
                 href="#Portofolio"
                 className="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-white/5 hover:bg-white/10 border border-white/15 hover:border-blue-400/50 text-slate-200 hover:text-white font-mono text-xs sm:text-sm transition-all hover:-translate-y-0.5"
               >
-                <Code2 className="w-4 h-4 text-blue-400" />
                 <span>Lihat Projek</span>
                 <ArrowUpRight className="w-4 h-4 text-slate-400" />
               </a>

@@ -3,14 +3,20 @@ import { Music2, ExternalLink } from 'lucide-react';
 export default function SpotifySection() {
   const playlists = [
     {
-      id: '3tTGV6mi4KfK4wXLnF0x4G',
+      id: '7lMaRerY9i4GtpXKdcULAB',
       label: 'Daily Rotation #1',
+      url: 'https://open.spotify.com/playlist/7lMaRerY9i4GtpXKdcULAB?si=wkwKxBV0SXOq1Edc5ODefg',
+      embedUrl: 'https://open.spotify.com/embed/playlist/7lMaRerY9i4GtpXKdcULAB?utm_source=generator&theme=0',
+    },
+    {
+      id: '3tTGV6mi4KfK4wXLnF0x4G',
+      label: 'Daily Rotation #2',
       url: 'https://open.spotify.com/playlist/3tTGV6mi4KfK4wXLnF0x4G?si=8V2jQQyXSRavm6O12GxsWA',
       embedUrl: 'https://open.spotify.com/embed/playlist/3tTGV6mi4KfK4wXLnF0x4G?utm_source=generator&theme=0',
     },
     {
       id: '2wb5F60fx2s7so7RMd1iJe',
-      label: 'Daily Rotation #2',
+      label: 'Daily Rotation #3',
       url: 'https://open.spotify.com/playlist/2wb5F60fx2s7so7RMd1iJe?si=SNrn4K0hQhOhWw54DsZC-A',
       embedUrl: 'https://open.spotify.com/embed/playlist/2wb5F60fx2s7so7RMd1iJe?utm_source=generator&theme=0',
     },
@@ -56,8 +62,8 @@ export default function SpotifySection() {
               </div>
             </div>
 
-            {/* Right Dual Spotify Embeds (Playlist #2 & #3) */}
-            <div className="lg:col-span-7 space-y-3.5">
+            {/* Right All 3 Spotify Embeds */}
+            <div className="lg:col-span-7 space-y-3">
               {playlists.map((pl) => (
                 <div key={pl.id} className="rounded-2xl overflow-hidden border border-white/10 bg-[#080b18] shadow-xl">
                   <iframe
