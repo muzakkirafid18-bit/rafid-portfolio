@@ -28,8 +28,8 @@ export default function PortfolioSection() {
 
   const tabs = [
     { id: 'projects', label: 'Projects', icon: <FolderGit2 className="w-4 h-4" />, count: 3 },
-    { id: 'certificates', label: 'Certificates', icon: <Award className="w-4 h-4" />, count: 4 },
-    { id: 'achievements', label: 'Achievements', icon: <Trophy className="w-4 h-4" />, count: 3 },
+    { id: 'certificates', label: 'Certificates', icon: <Award className="w-4 h-4" />, count: 5 },
+    { id: 'achievements', label: 'Achievements', icon: <Trophy className="w-4 h-4" />, count: 4 },
     { id: 'tech', label: 'Tech Stack', icon: <Cpu className="w-4 h-4" />, count: 11 },
   ];
 
@@ -240,6 +240,20 @@ public static void SubmitDonasi(int idProgram, int idDonatur, decimal jumlah, st
 
   const certificates = [
     {
+      id: 'uji-kompetensi-dicoding',
+      title: 'Sertifikat Industri: Junior Multi-Platform Engineer',
+      issuer: 'Dicoding Indonesia (Uji Kompetensi Industri)',
+      status: 'Sangat Kompeten',
+      type: 'Certificate of Industry • Uji Kompetensi #1',
+      date: '19 Oktober 2026',
+      credentialId: 'DCD-SMK/2026/X/323',
+      image: '/sertifikat-industri-dicoding.jpg',
+      verifyUrl: null,
+      pdfUrl: null,
+      desc: 'Lulus Uji Kompetensi Keahlian Junior Multi-Platform Engineer dengan predikat "Sangat Kompeten" (Very Competent) untuk penugasan dasar-dasar pemrograman berstandar industri. Berlaku 3 tahun.',
+      icon: '🥇',
+    },
+    {
       id: 'neoone-lsp',
       title: 'Neo One Industry Validation: Backend Programmer',
       issuer: 'Neo One Academy (Validasi Industri)',
@@ -283,21 +297,28 @@ public static void SubmitDonasi(int idProgram, int idDonatur, decimal jumlah, st
     },
     {
       id: 'bnsp-target',
-      title: 'Target 2x Sertifikasi BNSP',
+      title: 'Target Sertifikasi BNSP #2',
       issuer: 'Badan Nasional Sertifikasi Profesi (BNSP)',
-      status: 'Target Bulan Ini',
+      status: 'Target Berikutnya',
       type: 'National Professional Competency',
-      date: 'Target: Bulan Ini',
-      credentialId: 'Persiapan Ujian',
+      date: 'Upcoming Exam',
+      credentialId: 'Persiapan Ujian #2',
       image: null,
       verifyUrl: null,
       pdfUrl: null,
-      desc: 'Persiapan intensif untuk menempuh 2 skema uji kompetensi nasional standarisasi keahlian profesi rekayasa perangkat lunak.',
+      desc: 'Persiapan lanjutan untuk menempuh skema uji kompetensi sertifikasi profesi kedua bidang Rekayasa Perangkat Lunak.',
       icon: '🚀',
     },
   ];
 
   const achievements = [
+    {
+      title: 'Predikat "Sangat Kompeten" — Junior Multi-Platform Engineer',
+      issuer: 'Dicoding Indonesia (Uji Kompetensi Industri)',
+      year: 'Oktober 2026',
+      desc: 'Meraih predikat tertinggi Sangat Kompeten (Very Competent) pada Sertifikat Industri Nomor DCD-SMK/2026/X/323 yang berlaku selama 3 tahun.',
+      badge: 'Very Competent',
+    },
     {
       title: 'Validasi Industri: Backend Programmer (LSP SMKN 1 Cibinong)',
       issuer: 'Neo One Academy',
