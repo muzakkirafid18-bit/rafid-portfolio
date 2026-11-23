@@ -372,7 +372,7 @@ function createFlatStrapTexture() {
   for (let y = 170; y < 1024; y += 340) {
     ctx.save();
     ctx.translate(128, y);
-    ctx.rotate(Math.PI / 2);
+    ctx.rotate(-Math.PI / 2);
 
     // White circle icon with geometric 'R'
     ctx.strokeStyle = '#ffffff';
@@ -673,7 +673,10 @@ export default function Lanyard3D() {
         nodes[numNodes - 1].pos.lerp(dragTarget, 0.72);
       }
 
-      const maxStretchRatio = dragging ? 2.4 : 1.0;
+      const activeSegLen = dragging
+        ? Math.max(segLength, anchorPos.distanceTo(dragTarget) / (numNodes - 1))
+        : segLength;
+
       for (let iter = 0; iter < 8; iter++) {
         nodes[0].pos.copy(anchorPos);
         if (dragging) {
@@ -685,37 +688,34 @@ export default function Lanyard3D() {
           const b = nodes[i + 1].pos;
           const delta = new THREE.Vector3().subVectors(b, a);
           const dist = delta.length() || 0.0001;
-          const targetLen = segLength * maxStretchRatio;
-          if (dist > segLength || !dragging) {
-            const diff = (dist - (dragging ? Math.min(dist, targetLen) : segLength)) / dist;
-            if (i === 0) {
-              b.sub(delta.multiplyScalar(diff));
-            } else if (dragging && i + 1 === numNodes - 1) {
-              a.add(delta.multiplyScalar(diff));
-            } else {
-              const half = delta.multiplyScalar(diff * 0.5);
-              a.add(half);
-              b.sub(half);
-            }
+          const diff = (dist - activeSegLen) / dist;
+          if (i === 0) {
+            b.sub(delta.multiplyScalar(diff));
+          } else if (dragging && i + 1 === numNodes - 1) {
+            a.add(delta.multiplyScalar(diff));
+          } else {
+            const half = delta.multiplyScalar(diff * 0.5);
+            a.add(half);
+            b.sub(half);
           }
         }
       }
 
       const claspPos = nodes[numNodes - 1].pos;
-      const prevNodePos = nodes[numNodes - 2].pos;
       cardGroup.position.copy(claspPos);
 
-      const ropeDir = new THREE.Vector3().subVectors(claspPos, prevNodePos);
-      const tiltZ = Math.atan2(ropeDir.x, -ropeDir.y);
+      // Compute tilt from overall anchor->clasp vector (prevents left/right jitter when pulled straight down!)
+      const overallDir = new THREE.Vector3().subVectors(claspPos, anchorPos);
+      const tiltZ = Math.atan2(overallDir.x, -overallDir.y);
       cardGroup.rotation.z = THREE.MathUtils.lerp(
         cardGroup.rotation.z,
-        THREE.MathUtils.clamp(tiltZ, -0.9, 0.9),
-        0.35
+        THREE.MathUtils.clamp(tiltZ, -0.75, 0.75),
+        0.22
       );
       cardGroup.rotation.x = THREE.MathUtils.lerp(
         cardGroup.rotation.x,
-        THREE.MathUtils.clamp(ropeDir.z * 0.4, -0.25, 0.25),
-        0.25
+        THREE.MathUtils.clamp(overallDir.z * 0.25, -0.2, 0.2),
+        0.2
       );
       cardGroup.rotation.y = THREE.MathUtils.lerp(
         cardGroup.rotation.y,
