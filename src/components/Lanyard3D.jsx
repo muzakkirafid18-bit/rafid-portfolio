@@ -668,37 +668,35 @@ export default function Lanyard3D() {
         }
       }
 
-      const maxRopeLen = (numNodes - 1) * segLength;
-      const clampedDragTarget = dragTarget.clone();
+      nodes[0].pos.copy(anchorPos);
+
       if (dragging) {
-        const fromAnchor = new THREE.Vector3().subVectors(dragTarget, anchorPos);
-        if (fromAnchor.length() > maxRopeLen) {
-          fromAnchor.setLength(maxRopeLen);
-          clampedDragTarget.copy(anchorPos).add(fromAnchor);
+        // When dragged: allow pulling all the way to any corner, and keep the strap TAUT (ketat, zero slack!)
+        nodes[numNodes - 1].pos.lerp(dragTarget, 0.8);
+        const endPos = nodes[numNodes - 1].pos;
+        for (let i = 1; i < numNodes - 1; i++) {
+          const frac = i / (numNodes - 1);
+          const tautPos = new THREE.Vector3().lerpVectors(anchorPos, endPos, frac);
+          nodes[i].pos.lerp(tautPos, 0.85);
+          nodes[i].oldPos.copy(nodes[i].pos);
         }
-        nodes[numNodes - 1].pos.lerp(clampedDragTarget, 0.72);
-      }
-
-      for (let iter = 0; iter < 8; iter++) {
-        nodes[0].pos.copy(anchorPos);
-        if (dragging) {
-          nodes[numNodes - 1].pos.copy(clampedDragTarget);
-        }
-
-        for (let i = 0; i < numNodes - 1; i++) {
-          const a = nodes[i].pos;
-          const b = nodes[i + 1].pos;
-          const delta = new THREE.Vector3().subVectors(b, a);
-          const dist = delta.length() || 0.0001;
-          const diff = (dist - segLength) / dist;
-          if (i === 0) {
-            b.sub(delta.multiplyScalar(diff));
-          } else if (dragging && i + 1 === numNodes - 1) {
-            a.add(delta.multiplyScalar(diff));
-          } else {
-            const half = delta.multiplyScalar(diff * 0.5);
-            a.add(half);
-            b.sub(half);
+      } else {
+        // When released: natural fixed-length cloth pendulum swing
+        for (let iter = 0; iter < 8; iter++) {
+          nodes[0].pos.copy(anchorPos);
+          for (let i = 0; i < numNodes - 1; i++) {
+            const a = nodes[i].pos;
+            const b = nodes[i + 1].pos;
+            const delta = new THREE.Vector3().subVectors(b, a);
+            const dist = delta.length() || 0.0001;
+            const diff = (dist - segLength) / dist;
+            if (i === 0) {
+              b.sub(delta.multiplyScalar(diff));
+            } else {
+              const half = delta.multiplyScalar(diff * 0.5);
+              a.add(half);
+              b.sub(half);
+            }
           }
         }
       }
