@@ -372,7 +372,7 @@ function createFlatStrapTexture() {
   for (let y = 170; y < 1024; y += 340) {
     ctx.save();
     ctx.translate(128, y);
-    ctx.rotate(-Math.PI / 2);
+    ctx.rotate(Math.PI / 2);
 
     // White circle icon with geometric 'R'
     ctx.strokeStyle = '#ffffff';
@@ -425,7 +425,7 @@ function buildRibbonGeometry(points, halfWidth = 0.21) {
 
     positions.push(left.x, left.y, left.z, right.x, right.y, right.z);
 
-    const v = i / segments;
+    const v = 1 - i / segments;
     uvs.push(0, v, 1, v);
 
     if (i < segments) {
@@ -668,19 +668,21 @@ export default function Lanyard3D() {
         }
       }
 
-      nodes[0].pos.copy(anchorPos);
+      const maxRopeLen = (numNodes - 1) * segLength;
+      const clampedDragTarget = dragTarget.clone();
       if (dragging) {
-        nodes[numNodes - 1].pos.lerp(dragTarget, 0.72);
+        const fromAnchor = new THREE.Vector3().subVectors(dragTarget, anchorPos);
+        if (fromAnchor.length() > maxRopeLen) {
+          fromAnchor.setLength(maxRopeLen);
+          clampedDragTarget.copy(anchorPos).add(fromAnchor);
+        }
+        nodes[numNodes - 1].pos.lerp(clampedDragTarget, 0.72);
       }
-
-      const activeSegLen = dragging
-        ? Math.max(segLength, anchorPos.distanceTo(dragTarget) / (numNodes - 1))
-        : segLength;
 
       for (let iter = 0; iter < 8; iter++) {
         nodes[0].pos.copy(anchorPos);
         if (dragging) {
-          nodes[numNodes - 1].pos.copy(dragTarget);
+          nodes[numNodes - 1].pos.copy(clampedDragTarget);
         }
 
         for (let i = 0; i < numNodes - 1; i++) {
@@ -688,7 +690,7 @@ export default function Lanyard3D() {
           const b = nodes[i + 1].pos;
           const delta = new THREE.Vector3().subVectors(b, a);
           const dist = delta.length() || 0.0001;
-          const diff = (dist - activeSegLen) / dist;
+          const diff = (dist - segLength) / dist;
           if (i === 0) {
             b.sub(delta.multiplyScalar(diff));
           } else if (dragging && i + 1 === numNodes - 1) {
